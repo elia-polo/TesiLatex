@@ -1,0 +1,107 @@
+\chapter{Stato dell'arte}
+\label{capitolo2}
+\thispagestyle{empty}
+
+\noindent  Il termine \textit{clustering} si riferisce ad un insieme di tecniche che permettono la divisione di dati in gruppi di oggetti simili. Ogni gruppo, chiamato \textit{cluster}, \`e costituito da oggetti che sono contemporaneamente simili tra loro e diversi rispetto ad oggetti appartenenti ad altri gruppi. 
+In questo capitolo verranno presentate alcune definizioni preliminari, analizzati i passi principali della cluster analysis e approfonditi gli specifici aspetti teorici che hanno portato al raggiungimento degli obiettivi del lavoro di tesi.
+
+\section{Introduzione}
+\subsection{Cos'\`e la cluster analysis} 
+Viviamo in mondo pieno di dati. Ogni giorno le persone s'imbattono in una grande quantit\`a di informazioni che vengono memorizzate per analisi successive. Uno dei modi principali per trattare questi dati \`e quello di classificarli in un insieme di categorie o cluster. La classificazione svolge da sempre un ruolo fondamentale e indispensabile per lo sviluppo sociale e scientifico dell'uomo che, per comprendere un nuovo fenomeno, cerca le principali caratteristiche che lo descrivono per poi confrontarlo con altri fenomeni noti basandosi sulla somiglianza tra di essi.
+
+La cluster analysis, che ha come dominio di interesse i dati e non i fenomeni naturali, automatizza proprio questo processo, mettendo a disposizione una serie di strumenti e tecniche per scovare informazioni nascoste o per dedurre modelli latenti all'interno di una grande quantit\`a di informazioni che di per s\'e non mostrano nessuna regolarit\`a. L'obiettivo principale da raggiungere \`e quello di creare dei raggruppamenti che massimizzino la similarit\`a intra-cluster e contemporaneamente minimizzino quella inter-cluster, in modo tale che preso un generico cluster i dati presenti al suo interno espongano certe propriet\`a che lo caratterizza in modo determinante.
+
+Le applicazioni della cluster analysis sono molto variegate a seconda dello specifico ambito d'interesse del problema. Ad esempio, in medicina \`e necessario identificare diversi tipi di tessuto nelle immagini PET [1], nelle scienze sociali \`e utile localizzare aree metropolitane con un'alta incidenza di criminalit\`a [3], mentre nell'analisi delle reti sociali \`e interessante riconoscere comunit\`a all'interno di un elevato numero di individui [4]. Di conseguenza, il concetto astratto di dato assume rispettivamente la forma di una immagine o di una sezione geografica o ancora di un nodo all'interno di un grafo. Ad ogni dato, inoltre, \`e associato un insieme di propriet\`a che lo caratterizzano e che sar\`a il discriminante principale della cluster analysis.
+
+Presentiamo adesso delle definizioni preliminari e di base utili a comprendere a fondo le tecniche specifiche che verranno discusse nei prossimi paragrafi.
+
+\subsection{Definizione preliminari}
+Un dataset $ D $ indica un insieme di dati (o \textit{tuple}, \textit{istanze}, \textit{oggetti}) eterogeni. Ogni oggetto $ x \in D $ \`e un vettore del tipo $ x = (x_{1},..., x_{m}) $ dove l'i-esimo elemento $ x_{i} $ indica un attributo (o \textit{dimensione}, \textit{propriet\`a}) di $ x $. Un attributo \`e \textit{nominale} (o \textit{categorico}) se ha un dominio finito i cui elementi rappresentano una categoria di appartenenza, oppure \`e detto \textit{numerico} se ha un dominio infinito (in generale) i cui valori sono quantit\`a numeriche. 
+Per una dissertazione completa sulla tipologia di attributi si veda [6].
+
+Un \textit{cluster} \`e un insieme di oggetti $ C \subseteq D $. Un \textit{clustering} \`e un insieme di cluster. Pi\`u in particolare, il \textit{crisp clustering} \`e un clustering in cui ogni oggetto appartiene ad uno e un solo cluster, l'\textit{overlapping clustering} \`e un clustering in cui ogni oggetto pu\`o appartenere a pi\`u cluster, mentre il \textit{fuzzy clustering} \`e un clustering overlapping in cui si specifica il grado di appartenenza dell'oggetto ad un certo cluster in modo tale che la somma dei gradi sia pari all'unit\`a. Quindi sia nel clustering overlapping che in quello fuzzy un nodo pu\`o appartenere contemporaneamente a pi\`u di un cluster, la differenza sta nel fatto che nel fuzzy clustering il grado di appartenenza di un nodo diminuisce all'aumentare dei cluster di cui \`e membro.
+
+Su due oggetti $ x_{1} $ e $ x_{2} $ del dataset $ D $ \`e possibile definire una funzione di distanza che misura quanto i due oggetti sono diversi tra loro. Come verr\`a esposto in maniera pi\`u ampia nel prossimo paragrafo, la funzione di distanza \`e fondamentale in quanto definisce l'importante nozione di similarit\`a tra oggetti che \`e alla base della qualit\`a e del significato del clustering.
+
+Un dataset pu\`o contenere oggetti, chiamati \textit{outlier}, che non rispettano il comportamento generale o il modello sottostante dei dati. Gli outlier possono falsare sensibilmente il risultato degli algoritmi di clustering tanto da dover intervenire con una loro eliminazione tramite tecniche statistiche o basate sul concetto di distanza [18].
+
+\subsection{Procedura di clustering}
+
+La figura 1 illustra la tipica procedura per la cluster analysis. Analizziamone i quattro passi principali.
+
+\begin{description}
+\item[Selezione o estrazione degli attributi] Come affermato in [x], [y] e [z] la feature selection permette di selezionare un certo numero di propriet\`a da un insieme di candidate, mentre la feature extraction utilizza alcune trasformazioni per generare nuove feature da quelle originali. Entrambe le metodologie sono cruciali per l'efficacia dei risultati del clustering, infatti possono ridurre notevolmente il carico del dataset e semplificare il processo di design/selezione degli algoritmi. Inoltre, questo \`e un passo fondamentale per evitare il cosiddetto \textit{curse of dimensionality}. Il termine si riferisce ad una serie di complicazioni che si verificano nell'analizzare dati con un alto numero di attributi. Infatti l'alta dimensionalit\`a introduce due ordini di problemi: il primo riguarda la presenza di attributi non rilevanti ai fini del clustering che eliminano ogni tendenza al raggruppamento, il secondo invece afferma che la distanza di un punto dal suo vicino pi\`u prossimo diventa indistinguibile dalla distanza rispetto alla maggior parte degli altri punti. Tutto ci\`o rende non significativo il concetto di distanza peggiorando quindi la qualit\`a del clustering. Per un approfondimento si veda [7], [8] e [9]. 
+\item[Progettazione o selezione degli algoritmi di clustering] Questo passo \`e usualmente accompagnato dalla scelta di una misura di prossimit\`a e di una funzione criterio che valuti la qualit\`a del clustering. Ci\`o rende il problema delle ricerca dei cluster un problema d'ottimizzazione, ben definito matematicamente e con variegate soluzioni in letteratura. 
+\item[Validazione del clustering] Su uno stesso dataset, ogni algoritmo di clustering pu\`o generare sempre un clustering, indipendentemente dal fatto che questo sia effettivamente significativo. Inoltre, algoritmi differenti portano a soluzioni differenti e, persino per lo stesso algoritmo, una diversa scelta dee valori dei suoi parametri pu\`o influire sul risultato finale. Per questa ragione \`e utile avere degli strumenti che permettano di giudicare oggettivamente il grado di confidenza dei risultati di clustering. Tipicamente ci sono due categorie di indici: esterni e interni. I primi si basano sulla presenza di un clustering specificato a-priori (ground-truth) che serve per valutare la qualit\`a dell'algoritmo misurando quanto il risultato si discosta dalla ground-truth. Gli indici interni invece non si basano su nessuna informazione esterna, ma esaminano la struttura del clustering direttamente dai dati originali. Quando un indice interno viene utilizzato per misurare quanto un clustering \`e migliore di un altro allora viene detto relativo. Per un compendio approfondito sugli indici di validit\`a si faccia riferimento a [10], [11].
+\item[Interpretazione dei risultati] L'ultimo obiettivo del clustering \`e fornire agli utenti una visione generica del risultato ottenuto in modo tale da poter risolvere effettivamente il problema a monte. Infatti quindi la sola presenza di indici che misurano la qualit\`a del clustering non \`e mai sufficiente. L'affermazione \textit{clustering is in the eyes of the beholder} [43] conferma la tesi seconda la quale la decisione definitiva sulla coerenza del risultato deve essere presa dall'osservatore. Verranno quindi consultati esperti del dominio di interesse per interpretare e convalidare le soluzioni proposte dagli algoritmi.
+\end{description}
+
+\subsection{Segmentazione di mercato}
+La segmentazione di mercato pu\`o essere definita come quel processo che permette di partizionare un ampio mercato in piccoli gruppi di clienti (o \textit{segmenti}) [12], [13]. L'appartenenza ad uno stesso segmento indica la possibilit\`a di un simile comportamento d'acquisto. Conoscere questi segmenti \`e utile ai dirigenti aziendali non solo per creare soluzioni ad-hoc per ogni tipologia di cliente ma anche per definire con elevata precisione strategie competitive di mercato [14], [15].
+
+\`E immediato notare come la cluster analysis risolva in maniera agevole il problema di fondo della segmentazione di mercato: il cliente viene modellato come un oggetto e le sue caratteristiche vengono considerate come gli attributi di quell'oggetto. In questo modo il dataset di punti della cluster analysis diviene la base clienti dell'azienda e i cluster trovati dall'algoritmo potranno essere considerati uno spunto interessante per definire, successivamente, i segmenti di mercato.
+
+Vedremo nei paragrafi seguenti quali sono le tecniche e gli algoritmi che hanno permesso di raggiungere l'obiettivo principale del lavoro di tesi.
+
+\section{Classificazione degli algoritmi di clustering}
+\subsection{Metodi gerarchici}
+Il clustering gerarchico costruisce una gerarchia di cluster, un albero binario detto \textit{dendrogram} avente alla radice l'intera popolazione e alle foglie i singoli individui. Un nodo intermedio costituisce pertanto un cluster dei propri discendenti e tagliando l'albero a varie altezze si ottengono soluzioni di diversa dimensione al problema del clustering, con un numero crescente di gruppi man mano che ci si allontana dalla radice.
+%Questa tecnica procede per via agglomerativa o divisiva: nel primo caso, l'albero \`e costruito dalle foglie, agglomerando gli individui pi\`u simili in cluster intermedi fino ad ottenere l'intera popolazione; nel secondo, l'intera popolazione \`e iterativamente frammentata in gruppi sempre pi\`u omogenei fino a giungere ai singoli individui.
+Il clustering gerarchico offre una flessibilit\`a nativa nel livello di granularit\`a della soluzione ed \`e soprattutto compatibile con qualsiasi definizione di similarit\`a e conseguentemente applicabile ad ogni tipo di dato. D'altronde, le principali critiche a questa tecnica risiedono nella mancanza di robustezza che rende la soluzione vulnerabile a rumore e anomalie, nell'inabilit\`a di rivedere le scelte effettuate e correggere eventuali errori di classificazione nei cluster intermedi ed infine nella tendenza a formare cluster sferici. Tuttavia, il maggior limite del clustering gerarchico, che preclude la sua adozione per problemi di clustering in grande scala, \`e la complessit\`a almeno quadratica.
+\subsection{Metodi partitivi}
+Gli algoritmi partitivi dividono i dati in sottoinsiemi privi di una struttura gerarchica. Poich\'e identificare la soluzione ottima dall'enumerazione di tutte le possibili partizioni \`e computazionalmente infattibile, sono stati sviluppati algoritmi euristici: partendo da un funzione obiettivo, la soluzione \`e costruita iterando un problema di ottimizzazione, riassegnando gli individui tra i cluster al fine di massimizzare il punteggio del clustering finale. La differenza sostanziale tra algoritmi partitivi \`e gerarchici \`e proprio questo meccanismo di rilocazione, che corregge eventuali errori di classificazione degli individui.\\
+Gli algoritmi partitivi possono essere suddivisi in tre categorie:
+\begin{description}
+\item[centroid-based:] specificato il numero K di cluster, gli algoritmi basati sulla distanza producono un vettore di K centroidi---punti arbitrari nello spazio N-dimensionale dei dati---ed un assegnamento tra individui e centroidi, tale che la somma dei quadrati delle distanze tra individui e centroidi sia minima. Questa tipologia di algoritmi risente fortemente della scelta iniziale dei centroidi; inoltre produce cluster di forma sferica. Algoritmi notevoli sono \mbox{\textit{K-means}}, \mbox{\textit{K-medoids}}, \mbox{\textit{Fuzzy c-means}}; limitatamente agli algoritmi che abbiamo considerato per questo lavoro, [\dots].
+\item[model-based:] nella visione probabilistica, i cluster presenti nei dati sono espressione di numerose distribuzioni di probabilitA . fissate i dati siano stati generati da un modello probabilistico, questi algoritmi cercano di stimare i parametri del modello dai dati.
+\item[density-based] (DBSCAN, CLIQUE)
+\end{description}
+\section{Clustering di vasti dataset}
+
+\section{Tecniche avanzate per il clustering}
+\subsection{Data Preprocessing}
+\subsubsection{Outlier}
+\subsubsection{Missing Value}
+\subsubsection{Feature Selection}
+\subsubsection{Graph Sampling}
+
+\subsection{Ensemble clustering}
+\subsection{Subspace Clustering}
+Il \textit{subspace clustering} \`e una estensione del clustering tradizionale che cerca di determinare la presenza di possibili cluster in tutti i sottospazi\footnote{Per una definizione precisa di sottospazio si rimanda a [45]. Qui ci basta intuire che un sottospazio \`e una selezione di un sottoinsieme di $ m^{'} < m $ attributi dove $ m $ \`e il numero di attributi del dataset.} presenti all'interno del dataset in input. 
+Spesso, quando si ha a che fare con dati ad alta dimensionalit\`a, molte dimensioni risultano essere irrilevanti e possono, di conseguenza, nascondere l'effettiva presenza di qualche cluster [40]. Se da un lato la feature selection rimuove queste dimensioni irrilevanti analizzando l'intero dataset, il subspace clustering tenta di recuperare le dimensioni significative all'interno di uno specifico cluster, consentendo quindi l'individuazione di un raggruppamento che giace in un particolare sottospazio. Esistono fondamentalmente due tipologie di algoritmi di subspace clustering. La prima abbraccia l'approccio \textit{top-down} in cui si ricerca un clustering sull'insieme completo di propriet\`a valutando solo successivamente i sottospazi di ogni cluster con un criterio che migliora il risultato in maniera incrementale. La seconda vede l'applicazione dell'approccio \textit{bottom-up} che si basa sull'identificare regioni dense in spazi a basse dimensioni per poi combinarle in cluster a dimensione pi\`u elevata [41]. In estrema sintesi, il subspace clustering permette di recuperare cluster che sono caratterizzati, in generale, da un numero di attributi inferiore a quello originale. 
+
+Ad esempio l'algoritmo $ CLIQUE $ [42], uno dei primi algoritmi progettati per la ricerca di cluster nei sottospazi, si basa su una interessante osservazione: una regione che \`e densa in un particolare sottospazio sar\`a necessariamente densa una volta proiettata in un sottospazio di dimensione inferiore. Il contrario, invece, non \`e necessariamente vero. Basandosi su questa intuizione, l'algoritmo parte con l'analizzare sottospazi densi con poche dimensioni che possono suggerire la presenza di cluster con dimensioni pi\`u elevate; detto altrimenti, se una regione a $ m $ dimensioni non \`e densa allora non lo \`e neppure una con $ m^{'} > m $ dimensioni.
+Questo ragionamento  pu\`o essere utilizzato per identificare unit\`a dense in un qualunque sottospazio, impiegando, quindi, una procedura molto pi\`u efficiente dell'ispezione completa di tutti i sottospazi presenti in un dataset.
+Per un compendio approfondito sul clustering subspace si faccia riferimento a [41], [43]
+
+\subsection{Clustering di grafi e reti sociali}
+\subsubsection{Definizioni}
+Un \textit{grafo} \`e una struttura matematica usata per modellare relazioni tra oggetti. Esso pu\`o, ad esempio, rappresentare la relazione di amicizia che c'\`e tra un gruppo di persone, oppure la struttura bio-molecolare di DNA o proteine [46], [47]. Quando si associa ad ogni oggetto (o vertice) un insieme di propriet\`a che lo descrivono si parla di grafo con attributi\footnote{ Pi\`u precisamente, un grafo con attributi \`e una tripla $ G = (V, E, \Lambda) $, dove $ V $ \`e l'insieme di vertici, $ E $ \`e l'insieme di archi, e $ \Lambda = \{ a_{1}, \dots, a_{m} \} $ \`e l'insieme di $ m $ attributi associati ai vertici in $ V $. Ad ogni vertice $ v_{i} \in V$  \`e associato un vettore di attributi $ [ a_{1}(v_{i}), \dots, a_{m}(v_{i})] $ dove $ a_{j}(v_{i}) $ \`e il valore dell'attributo $ a_{j} $ per il vertice $ v_{i} $. Un grafo \`e un grafo con attributi con $ \Lambda = \emptyset $. [48] }  [48], [49].
+
+Una \textit{rete sociale} \`e una struttura costituita da individui (o attori, organizzazioni) connessi tramite un insieme di archi che rappresenta una relazione sociale. Queste reti hanno delle propriet\`a ampiamente studiate in sociologia che rivestono un ruolo fondamentale anche nella cluster analysis\footnote{In questo contesto \`e pi\`u preciso parlare di \textit{comunit\`a} invece che di cluster e di algoritmi di \textit{community detection} invece che algoritmi di clustering.}: \textit{omofilia}, \textit{transitivit\`a} e \textit{clustering locale}. L'omofilia rappresenta la tendenza secondo cui \`e molto pi\`u probabile che ci sia una relazione sociale tra individui che presentano attributi simili rispetto a individui molto diversi tra loro [50], [51], [52]. La transitivit\`a afferma che se due attori condividono un legame sociale con un terzo attore allora \`e verosimile che essi stessi siano tra loro relazionati [53]. Il clustering locale, infine, indica la presenza di un alta densit\`a di relazioni localmente ad alcuni individui della rete [54]\footnote{Un approfondimento interessante sulla struttura e sui modelli delle reti \`e possibile leggerlo in [55]}. Come gi\`a affermato, queste tre propriet\`a sono fondamentali in quanto suggeriscono delle solide linee guida per la progettazione di algoritmi di clustering di reti sociali. 
+
+\subsubsection{Clustering su grafi}
+Le reti sociali, intrisecamente, presentano al proprio interno comunit\`a molto coese di individui [57] e l'obiettivo principale di un algoritmo di clustering \`e la loro individuazione. Il primo problema da affrontare \`e quello della definizione di comunit\`a. Non esistono definizioni universalmente accettate [56] in quanto esse dovrebbero essere definite in base allo specifico problema da affrontare. Inoltre \`e importante specificare se si \`e interessati a trovare comunit\`a solamente topologiche [A1], [A2], [AN] o anche caratterizzate dalla similarit\`a tra gli individui [A4] [A5] [A6]. Partendo dalle prime, l'intuizione generalmente utilizzata \`e che devono esserci molti pi\`u archi "all'interno" della comunit\`a rispetto a quelli che ci sono tra la comunit\`a e il resto del grafo. 
+
+
+
+
+% [40] http://www-users.cs.umn.edu/~kumar/papers/high_dim_clustering_19.pdf
+% [41] http://dl.acm.org/citation.cfm?id=1007731
+% [42] Rakesh Agrawal, Johannes Gehrke, Dimitrios Gunopulos, and Prabhakar Raghavan. â?? Automatic subspace clustering of high-dimensional data for data mining applications ,â? In ACM SIGMOD Conference on Management of Data (1998).
+% [43]  Subspace and projected clustering: experimental evaluation and analysis
+% [44] http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.332.3907&rep=rep1&type=pdf
+% [45] http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.225.2898&rep=rep1&type=pdf
+% [46] Introduction to Graph Theory By: Richard J. Trudeau
+% [47] Graph Theory and Networks in Biology
+% [48] IncCluster
+% [49] BAGC
+% [50] McPherson, M., Smith-Lovin, L. and Cook, J. M. (2001) Birds of a feather: homophily in social networks. A. Rev. Sociol., 27, 415â??444.
+% [51] Lazarsfeld, P. and Merton, R. (1954) Friendship as social process: a substantive and methodological analysis. In Freedom and Control in Modern Society (eds M. Berger, T. Abel and C. Page), pp. 18â??66. New York: Van Nostrand
+
+% [52] Freeman, L. C. (1996) Some antecedents of social network analysis. Connections, 19, 39â??42.
+% [53] White, H. C., Boorman, S. A. and Breiger, R. L. (1976) Social-structure from multiple networks: I, Blockmodels of roles and positions. Am. J. Sociol., 81, 730â??780.
+% [54]  Watts, D. J.; Strogatz, S. H. (1998). "Collective dynamics of 'small-world' networks". Nature 393 (6684): 440â??442. doi:10.1038/30918. PMID 9623998. edit
+% [55] The structure and function of complex networks
+% [56]Community detection in graphs Santo Fortunato
+% [57] Community Detection based on Structural and Attribute Similarities
