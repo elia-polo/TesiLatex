@@ -23,13 +23,18 @@
 \renewcommand{\captionfont}{\normalfont \sffamily \itshape \small}
 
 \pagestyle{empty}
-%\usepackage[colorlinks=true,italian,breaklinks,setpagesize=false]{hyperref}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+%\usepackage[italian,setpagesize=false,colorlinks=true,breaklinks]{hyperref}
 \usepackage{hyperref}
 \hypersetup{
-			hidelinks,
 			italian,
-			breaklinks,
-			setpagesize=false}
+			setpagesize=false,
+			colorlinks=true,
+			linkcolor={MidnightBlue},
+			citecolor={YellowOrange},
+			urlcolor={violet},
+			breaklinks
+			}
 
 \begin{document}
 \include{frontespizio}
