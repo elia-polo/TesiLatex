@@ -35,7 +35,7 @@ Nel progetto originale, il framework è alimentato da tre sorgenti di dati: Faceb
 L'obiettivo finale di questa fase è definire un modello unico dei dati, come esposto in \autoref{fig:modello_dati}, per integrare sorgenti eterogenee.\\
 Una evidente differenza fra Twitter e Facebook è la natura e lo scopo delle interazioni tra gli utenti. Facebook è solitamente usato per stare in contatto o ritrovare persone che conosciamo realmente o abbiamo frequentato nel passato. In particolare, una volta stretta amicizia il rapporto tra due amici è paritario e simmetrico: possono scambiarsi liberamente messaggi ed ogni contenuto pubblicato da una parte viene notificato all'altra. Al contrario, Twitter è principalmente adoperato per comunicare con altre persone con le quali, pur non frequentandole nella vita reale, condividiamo interessi o argomenti di discussione. Questo legame più superficiale incide sul grado di omofilia nella rete: individui connessi come \textit{friend} saranno in genere più simili di individui connessi come \textit{follower}, tanto più se la relazione non è reciproca. Twitter realizza un modello asimmetrico di relazione, in cui la discrepanza tra il numero di persone che ci seguono e quelle che seguiamo determina la nostra reputazione all'interno della comunità. Nella pratica, l'asimmetria limita i privilegi di colui che segue: ad esempio, il \textit{follower} non può contattare unilateralmente le persone che segue, a meno che non sia stato esplicitamente autorizzato o la relazione sia stata ricambiata. Questa peculiarità ha sensibili implicazioni sul modello dei dati, giacché il grafo degli utenti deve adesso contenere archi orientati.\\
 Una ulteriore peculiarità risiede nel confronto tra \textit{like} e \textit{hashtag}. Mentre la relazione tra un utente Facebook e un like è binaria, o l'utente ha espresso il proprio gradimento di un oggetto o non lo ha fatto, nel caso di Twitter un utente può non adoperare mai un hashtag o usarlo con frequenza. Anche in questo caso il modello dei dati richiede una estensione, tramite l'introduzione di pesi sugli archi utente-hashtag. A differenza del caso precedente, dove un arco non orientato può essere equivalentemente modellato da una coppia di archi orientati, conciliare gli archi privi di peso di Facebook con quelli pesati di Twitter richiede una normalizzazione arbitraria dei pesi. In aggiunta, il significato di un hashtag è tutt'altro che analogo ad un like, poiché, avendo fissato l'argomento, un tweet può esprimere tanto apprezzamento quanto avversione, discussione o ``inutile chiacchiera''\footnote{\url{http://web.archive.org/web/20110715062407/www.pearanalytics.com/blog/wp-content/uploads/2010/05/Twitter-Study-August-2009.pdf}}. Per amalgamare semanticamente i tweet ai like sarebbe necessario discriminare i tweet in semplici categorie, \textit{like} e \textit{dislike}, che tuttavia è un problema di elaborazione del linguaggio naturale e clustering in sé. Infine, la vita media di un hashtag è di gran lunga più breve rispetto ad un like. In termini assoluti, mentre un like è sostenuto da un contenuto---una pagina o una realtà esterna a Facebook---ed esprimendo il like l'utente si connette a tale contenuto nel grafo sociale, la creazione di un hashtag richiede al più uno sforzo di immaginazione; la controparte della proliferazione di hashtag è proprio la loro volatilità. In termini relativi, il carattere episodico e conversevole del tweet richiede tempi di elaborazione ed azione più stringenti, in quanto l'associazione e il coinvolgimento dell'utente rispetto ad un hashtag può rapidamente consumarsi. In sintesi, l'analisi dei tweet richiede algoritmi tolleranti di una elevatissima dimensionalità, coerente con l'elaborazione del linguaggio naturale, possibilmente basati su grafi e che garantiscano una bassa complessità temporale, anche a scapito della qualità.\\
-Nel 2010 Facebook lanciò Luoghi, un nuovo componente dell'applicazione ed un clone di Foursquare, di cui imitava la terminologia e le funzionalità. Il servizio conobbe poco successo e fu abbandonato un anno dopo, mantenendo unicamente la possibilità di comunicare la propria posizione quando si pubblica un post. Per questa ragione, Foursquare è un servizio unico nel suo genere e, contribuendo informazione nuova e non ridondante, non richiede sforzi addizionali di assimilazione.\\
+Nel 2010 Facebook lanciò Luoghi, un nuovo componente dell'applicazione ed un clone di Foursquare, di cui imitava la terminologia e le funzionalità. Il servizio conobbe poco successo e fu abbandonato un anno dopo, mantenendo unicamente la possibilità di comunicare la propria posizione quando si pubblica un post. Per questa ragione, Foursquare è un servizio unico nel suo genere e, contribuendo informazione nuova e non ridondante, non richiede sforzi addizionali di assimilazione nel modello.\\
 Una volta definiti i criteri di integrazione, l'ultimo passo sarebbe la \textit{entity resolution}, ovvero l'identificazione dei profili che, benché apparentemente scorrelati e provenienti da sorgenti diverse, pertengono al medesimo individuo reale. Questa fase non risulta tuttavia applicabile ai dati a nostra disposizione, che provengono unicamente da Facebook.\\
 \subsection{La costruzione del dataset}
 \mbox{\textit{Graph API}}\footnote{\url{https://developers.facebook.com/docs/graph-api}} è lo strumento primario per leggere e scrivere sul grafo sociale di Facebook. L'interfaccia offre una rappresentazione della enorme base dati Facebook sotto forma di grafo, composto da:
@@ -58,7 +58,7 @@ Limitatamente al modello dei dati, gli algoritmi possono essere raggruppati in t
 \begin{description}
 \item[NetClus] è un algoritmo per il clustering di reti composte da entità eterogenee e conformazione a stella (\textit{star network schema}). In assenza di connessioni tra utenti, il modello dei dati descritto in \autoref{fig:modello_dati} riflette esattamente questo scenario: al centro della stella vi è l'utente, da cui scaturiscono archi verso gli attributi di profilo, like, hashtag e check-in, ognuno dei quali forma un nuovo tipo di entità. Il pregio di NetClus è che non si limita ad attribuire una etichetta di cluster a ciascun utente, ma produce un ordinamento dei valori di ciascuna entità in ognuno dei cluster ottenuti, semplificando grandemente l'interpretazione dei risultati.
 %Ad esempio, per ogni cluster sarebbero evidenziati i valori di età, luogo di nascita, grado di istruzione, like, check-in\dots più rappresentativi per la popolazione raccolta nel cluster.
-In secondo luogo, l'approccio di NetClus riduce fortemente la dimensionalità del problema rispetto agli altri algoritmi su attributi, dove ogni nuovo like o hashtag aggiunge una dimensione al dataset. Un ultimo punto di forza è che non richiede la definizione di una misura di similarità, ma costruisce un modello probabilistico generativo sotto l'ipotesi che la rete esibisca assortatività e \textit{preferential attachment}, come nel caso delle reti sociali. Dato il numero di cluster, l'idea generale di NetClus si compone dei seguenti passi: generare una partizione iniziale degli oggetti ed indurre i \textit{net-cluster} $\{C_{k}^{0}\}_{k=1}^{K}$ dalla rete originale sulla base di queste partizioni; costruire, per ciascun net-cluster, un modello probabilistico generativo $\{P(x|C_{k}^{t})\}_{k=1}^{K}$; quindi calcolare la probabilità a posteriori $P(C_{k}^{t}|x)$ per ciascun oggetto e ricalcolare l'assegnamento degli oggetti ai cluster. I due passi precedenti sono reiterati finché i cluster non raggiungono una condizione stazionaria. Al termine, dalla probabilità a posteriori si ottiene un ordinamento degli oggetti all'interno dei cluster di appartenenza. L'algoritmo è lineare nel numero di archi, ovvero per reti sparse è approssimativamente lineare nel numero di nodi.
+In secondo luogo, l'approccio di NetClus riduce fortemente la dimensionalità del problema rispetto agli altri algoritmi su attributi, dove ogni nuovo like o hashtag aggiunge una dimensione al dataset. Un ultimo punto di forza è che non richiede la definizione di una misura di similarità, ma costruisce un modello probabilistico generativo sotto l'ipotesi che la rete esibisca assortatività e \textit{preferential attachment}, come nel caso delle reti sociali. Dato il numero di cluster, l'idea generale di NetClus si compone dei seguenti passi: generare una partizione iniziale degli oggetti ed indurre i \textit{net-cluster} $\{C_{k}^{0}\}_{k=1}^{K}$ dalla rete originale sulla base di queste partizioni; costruire, per ciascun net-cluster, un modello probabilistico generativo $\{P(x|C_{k}^{t})\}_{k=1}^{K}$; quindi calcolare la probabilità a posteriori $P(C_{k}^{t}|x)$ per ciascun oggetto e ricalcolare l'assegnamento degli oggetti ai cluster. I due passi precedenti sono reiterati finché i cluster non raggiungono una condizione stazionaria. Al termine, dalla probabilità a posteriori si ottiene un ordinamento degli oggetti all'interno dei cluster di appartenenza. L'algoritmo ha complessità lineare nel numero di archi, ovvero per reti sparse è approssimativamente lineare nel numero di nodi.
 \item[MOC] è un algoritmo probabilistico generativo per l'identificazione di cluster non disgiunti o \textit{overlapping}. L'algoritmo generalizza e semplifica un precedente studio sul clustering sovrapposto di espressioni genetiche \cite{SegalBK03}; con una scelta oculata del modello di probabilità e definizione di distanza---la famiglia esponenziale e la divergenza di Bregman rispettivamente---gli autori sostengono di poter applicare la tecnica a dati sparsi e con numerose dimensioni, laddove il modello gaussiano e la distanza euclidea, usati più comunemente, sono noti offrire scarsi risultati. A testimonianza della formulazione originale, i dati o matrice di espressione $X$ sono modellati come la manifestazione di due fattori, l'appartenenza $M$ e l'attivazione $A$. L'appartenenza descrive quanto i cluster nascosti nei dati si manifestano in ciascun individuo; dato che il modello è \textit{overlapping}, ogni individuo può appartenere simultaneamente a più cluster. L'attivazione indica il peso di ciascuna dimensione dei dati in ognuno dei cluster, ossia quali caratteristiche di un individuo sono determinate più significativamente dall'appartenenza al cluster. I dati sono quindi ricostruiti come il prodotto $X'=M \times A$ tra la matrice di appartenenza e la matrice di attivazione. Seguendo questa intuizione, l'algoritmo costruisce una stima iterativa di $M$ e $A$. Il vettore di appartenenza $M_i$ di ciascun individuo è ottenuto con un approccio \textit{greedy}, volto a minimizzare la distanza tra l'individuo e la sua approssimazione $M_i \times A$: fissata la matrice di attivazione $A$, MOC `accende' con ogni iterazione un nuovo cluster, fino a quando per nessuna scelta è possibile ridurre ulteriormente la funzione obiettivo. La complessità temporale di questa fase è $O(k^3)$ nel numero di cluster $k$. La matrice di attivazione può essere costruita dalla minimizzazione della medesima funzione obiettivo, fissata $M$; seppure sia definita una diversa formula per ogni modello nella famiglia esponenziale e relativa divergenza, la complessità temporale di questa fase può essere stimata in $O(d^3)$.
 \item[LAC] è un algoritmo \textit{centroid-based} di \textit{subspace clustering}. Come discusso in \ref{subsec:metodi_partitivi}, le prestazioni degli algoritmi basati sulla distanza euclidea degradano rapidamente al crescere del numero di dimensioni. Per ovviare a questo noto limite, LAC trasforma lo spazio in cui ciascun cluster è immerso: associa ad ogni cluster un vettore di pesi affinché maggiore importanza sia conferita alle dimensioni lungo le quali c'è aggregazione dei punti, all'interno del cluster. I pesi indicano quindi il grado di partecipazione di ciascun attributo al cluster; se i punti sono fortemente raggruppati rispetto a quell'attributo, il peso sarà alto, e basso altrimenti. I pesi sono appresi iterativamente, dalla ottimizzazione della somma degli errori quadrati (SSE), ovvero le distanze, per ciascun cluster, tra il centroide di riferimento e di tutti i punti appartenenti. In assenza di contromisure, tutto il peso sarebbe concentrato sulla dimensione a minima varianza e l'algoritmo scoprirebbe unicamente cluster monodimensionali; per controllare la dimensione dello sottospazio in cui i cluster sono valutati, un termine di penalità controllato dall'utente è inserito nella funzione obiettivo. Sebbene l'esistenza di parametri astratti sia un aspetto in genere indesiderabile, gli autori hanno definito una metodologia \textit{ensemble} per la determinazione del valore ottimo attraverso esecuzioni multiple della procedura di clustering.
 \item[ORCLUS] è un algoritmo di clustering proiettato (\textit{projected clustering}) basato su \textit{K}-medoids. Dati due parametri specificati dall'utente, il numero di cluster e il numero di dimensioni dei cluster, ORCLUS identifica un insieme di cluster arbitrariamente allineati---non solo paralleli agli assi, ma ottenuti dalla combinazione lineare delle dimensioni originali---ciascuno in un sottospazio della dimensione specificata. ORCLUS è molto simile all'algoritmo k-means, tranne per il fatto che, invece di misurare le distanze nello spazio completo, queste sono calcolate nei sottospazi di ciascun cluster. Preliminarmente, ORCLUS sceglie casualmente dei `semi' o potenziali medoidi. L'algoritmo richiede quindi un processo iterativo: in ogni iterazione ciascun cluster è progressivamente raffinato, rimuovendo le dimensioni prive di aggregazione e riducendo il numero di cluster dall'accorpamento di quelli più simili. I sottospazi sono formati tramite PCA, ovvero calcolando la matrice di covarianza per ciascun cluster e selezionando gli autovettori con la minore diffusione nel sottospazio del cluster, ovvero quelli associati agli autovalori più piccoli. Quando due cluster sono vicini e hanno simili direzioni degli autovettori sono fusi assieme. A chiusura di ogni iterazione è eseguita la fase di assegnamento: ogni punto è associato al seme più vicino e i semi sono ricalcolati come i centroidi dei cluster appena formati. L'algoritmo è computazionalmente intensivo $O(d^3)$ nella dimensione dei dati, in conseguenza del calcolo della matrice di covarianza e degli autovettori di ciascun cluster. Oltretutto, richiede la specificazione non solo del numero di cluster ma anche della dimensione del sottospazio in cui ciascun cluster è costruito, un parametro difficile da stimare correttamente a priori.
@@ -69,13 +69,86 @@ In secondo luogo, l'approccio di NetClus riduce fortemente la dimensionalità del
 \subsection{Rimozione degli outlier}
 Per identificare e rimuovere gli outlier abbiamo fatto ricorso al package \textit{outliers} di R.
 \subsection{Imputazione dei missing values}
-
+Tra gli algoritmi che abbiamo selezionato, solo Cesna \cite{cesna} è insensibile ai valori mancanti. Per tutti gli altri è stato necessario produrre una versione completa dei dati. A tal fine abbiamo fatto ricorso a tre soluzioni: rimuovere l'individuo con missing values, rimuovere integralmente l'attributo o inferire il valore laddove assente. La prima soluzione è consigliabile quando l'individuo è così povero di informazione da non produrre alcun beneficio all'analisi: questo è il caso di profili con un rigido livello di riservatezza. La seconda soluzione è necessaria quando l'attributo è mancante per una significativa porzione della popolazione: in questo scenario, rimuovere gli individui privi dell'attributo sarebbe un spreco di informazione e non è disponibile sufficiente informazione reale per inferire i valori mancanti. In ultimo, i valori possono essere dedotti tramite imputazione.\\
+Dai risultati in \autoref{table:missing_values} si evince che gli attributi \textit{orientamento sessuale} e \textit{stato sentimentale} sono specificati da una estrema minoranza di utenti, certamente troppo pochi per applicare una procedura di imputazione; pertanto sono stati rimossi dal dataset.
+\begin{table}[h]
+\resizebox{0.9\textwidth}{!}{\begin{minipage}{\textwidth}
+\begin{tabular}{| c | c | c | c | c | c | c |}
+\multicolumn{1}{c}{genere}
+ &  \multicolumn{1}{c}{età}
+ & \multicolumn{1}{c}{\specialcell[t]{luogo di\\nascita}}
+ & \multicolumn{1}{c}{\specialcell[t]{luogo di\\residenza}}
+ & \multicolumn{1}{c}{educazione}
+ & \multicolumn{1}{c}{\specialcell[t]{orientamento\\sessuale}}
+ & \multicolumn{1}{c}{\specialcell[t]{stato\\sentimentale}}
+ \tabularnewline
+\hline
+0.0078 & 0.3253 & 0.2802 & 0.2364 & 0.2429 & 0.9913 & 0.9984 \tabularnewline
+\hline
+\end{tabular}
+\caption{Distribuzione dei valori mancanti per attributo}
+\label{table:missing_values}
+\end{minipage} }
+\end{table}
+Un discorso a parte merita l'educazione, che descrive l'aver frequentato la scuola superiore, un corso universitario triennale e magistrale. Nonostante si tratti di campi opzionali---un individuo può certamente non aver frequentato l'università---data l'origine dei dati, principalmente studenti universitari e la loro cerchia di  amici, risultano inspiegate percentuali tanto alte (\autoref{table:missing_values}) di assenza di qualsivoglia livello di istruzione. Questo lascia pensare che vi sia un significativa incidenza di missing values anche per questo attributo, ed un stima per difetto si ottiene dall'incidenza di dati incongruenti: individui che frequentano studi universitari senza aver inserito nel proprio profilo i gradi di istruzione inferiori (incongruente in \autoref{table:missing_values_education}).
+\begin{table}[h]
+\resizebox{0.9\textwidth}{!}{\begin{minipage}{\textwidth}
+\begin{tabular}{| c | c | c | r}
+\multicolumn{1}{c}{scuola superiore}
+ &  \multicolumn{1}{c}{università triennale}
+ & \multicolumn{1}{c}{università specialistica}
+ & \multicolumn{1}{c}{}
+ \tabularnewline
+\cline{1-3}
+0.3232 & 0.4176 & 0.9297 & non specificato \tabularnewline
+\cline{1-3}
+0.0794 & 0.0120 & 0 & incongruente \tabularnewline
+\cline{1-3}
+\end{tabular}
+\caption{Distribuzione dei valori mancanti per ciascun grado di istruzione}
+\label{table:missing_values_education}
+\end{minipage} }
+\end{table}
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.47\textwidth}
+		\includegraphics[width=\textwidth]{pictures/profile_vs_likes.pdf}
+		\caption{dataset completo}
+		\label{fig:profile_vs_likes_users}
+	\end{subfigure}
+	\hfill
+    %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+    %(or a blank line to force the subfigure onto a new line)
+	\begin{subfigure}[b]{0.47\textwidth}
+		\includegraphics[width=\textwidth]{pictures/profile_vs_likes_dau.pdf}
+		\caption{utenti dell'applicazione facebook}
+		\label{fig:profile_vs_likes_daus}
+	\end{subfigure}
+	\caption{Relazione tra il numero di attributi e like nel profilo utente}
+	\label{fig:profile_vs_likes}
+\end{figure}\\
+Mostriamo in \autoref{fig:profile_vs_likes} la relazione nei dati tra la completezza dei dati biografici e il numero di like nel profilo dell'utente. Si può osservare che esiste una moderata correlazione tra le due grandezze, ossia più povero è il profilo meno like 
+%Missingness by attribute
+%interested_in 0.9913379
+%gender 0.007874636
+%hometown 0.280652
+%location 0.2375384
+%birthday 0.3262855
+%relationship_status 0.9983857
+%education 0.2437594
+%missingness for education
+%HS			College		GR Sc		
+%0.3231751 	0.4175526 	0.9296795
+%True missing
+%HS			College		GR Sc
+%0.0794157	0.01204819	0
+missing values introduced by transformations (coordinates missing after geocoding)
 \subsection{Trasformazione numerica dei luoghi}
 
 \subsection{Discretizzazione}
 
-
 \section{Esecuzione degli algoritmi}
 \label{esecuzione_algoritmi}
+
 \section{Analisi dei risultati}
 \label{analisi_risultati}
