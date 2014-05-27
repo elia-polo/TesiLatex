@@ -8,6 +8,7 @@
 \usepackage{amsmath,amssymb}
 \usepackage{rotating}
 \usepackage{fancyhdr}
+\usepackage{listings}
 %\usepackage[scriptsize]{caption}
 \hyphenation{a-gen-tiz-za-zio-ne}
 
@@ -25,17 +26,53 @@
 
 \pagestyle{empty}
 \usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage{multirow}
 %\usepackage[italian,setpagesize=false,colorlinks=true,breaklinks]{hyperref}
 \usepackage{hyperref}
 \hypersetup{
-			italian,
-			setpagesize=false,
-			colorlinks=true,
-			linkcolor={MidnightBlue},
-			citecolor={YellowOrange},
-			urlcolor={violet},
-			breaklinks
-			}
+	italian,
+	setpagesize=false,
+	colorlinks=true,
+	linkcolor={MidnightBlue},
+	citecolor={YellowOrange},
+	urlcolor={violet},
+	breaklinks
+}
+
+\colorlet{punct}{red!60!black}
+\definecolor{background}{HTML}{EEEEEE}
+\definecolor{delim}{RGB}{20,105,176}
+\colorlet{numb}{magenta!60!black}
+\mathchardef\mdash="2D
+
+\lstdefinelanguage{json}{
+    basicstyle=\normalfont\ttfamily\scriptsize,
+    stepnumber=1,
+    numbersep=1pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=lines,
+    backgroundcolor=\color{background},
+    literate=
+     *{0}{{{\color{numb}0}}}{1}
+      {1}{{{\color{numb}1}}}{1}
+      {2}{{{\color{numb}2}}}{1}
+      {3}{{{\color{numb}3}}}{1}
+      {4}{{{\color{numb}4}}}{1}
+      {5}{{{\color{numb}5}}}{1}
+      {6}{{{\color{numb}6}}}{1}
+      {7}{{{\color{numb}7}}}{1}
+      {8}{{{\color{numb}8}}}{1}
+      {9}{{{\color{numb}9}}}{1}
+      {:}{{{\color{punct}{:}}}}{1}
+      {,}{{{\color{punct}{,}}}}{1}
+      {\{}{{{\color{delim}{\{}}}}{1}
+      {\}}{{{\color{delim}{\}}}}}{1}
+      {[}{{{\color{delim}{[}}}}{1}
+      {]}{{{\color{delim}{]}}}}{1},
+}
+
+\renewcommand{\captionfont}{\normalfont \sffamily \itshape \small}
 
 \begin{document}
 \include{frontespizio}
