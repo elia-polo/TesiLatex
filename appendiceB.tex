@@ -1,5 +1,97 @@
-\chapter{Documentazione della programmazione}
+\chapter{Analisi dei dati}
 \label{appendiceB}
 \thispagestyle{empty}
 
-\noindent Documentazione della programmazione in piccolo dove si mostra la struttura ed eventualmente l'albero di Jackson.
+\begin{table}[h]
+\small
+\centering
+\begin{tabular}{l | c | c | c | c |}
+ \multicolumn{1}{c}{} 
+ & \multicolumn{1}{c}{utenti}
+ & \multicolumn{1}{c}{archi \textit{friend}}
+ & \multicolumn{1}{c}{\textit{like}}
+ & \multicolumn{1}{c}{componenti}
+ \tabularnewline
+\cline{2-5}
+1 & 1258 & 70\hspace{2pt}967 & 112\hspace{2pt}707 & 1 \tabularnewline
+\cline{2-5}
+2 & 1419 & 27\hspace{2pt}399 & 111\hspace{2pt}684 & 3 \tabularnewline
+\cline{2-5}
+3 & 1390 & 18\hspace{2pt}469 & 106\hspace{2pt}785 & 2 \tabularnewline
+\cline{2-5}
+4 & 1565 & 88\hspace{2pt}789 & 125\hspace{2pt}916 & 2 \tabularnewline
+\cline{2-5}
+5 & 1469 & 48\hspace{2pt}023 & 139\hspace{2pt}691 & 2 \tabularnewline
+\cline{2-5}
+6 & 1461 & 19\hspace{2pt}117 & 121\hspace{2pt}544 & 2 \tabularnewline
+\cline{2-5}
+7 & 1579 & 52\hspace{2pt}330 & 124\hspace{2pt}374 & 3 \tabularnewline
+\cline{2-5}
+8 & 1250 & 32\hspace{2pt}134 & 104\hspace{2pt}848 & 3 \tabularnewline
+\cline{2-5}
+9 & 3091 & 115\hspace{2pt}695 & 222\hspace{2pt}839 & 4 \tabularnewline
+\cline{2-5}
+10 & 3143 & 85\hspace{2pt}396 & 223\hspace{2pt}146 & 2 \tabularnewline
+\cline{2-5}
+11 & 2633 & 56\hspace{2pt}785 & 195\hspace{2pt}395 & 4 \tabularnewline
+\cline{2-5}
+12 & 2951 & 110\hspace{2pt}737 & 197\hspace{2pt}220 & 2 \tabularnewline
+\cline{2-5}
+13 & 3166 & 61\hspace{2pt}634 & 204\hspace{2pt}507 & 2 \tabularnewline
+\cline{2-5}
+14 & 2633 & 107\hspace{2pt}249 & 208\hspace{2pt}152 & 1 \tabularnewline
+\cline{2-5}
+15 & 2997 & 90\hspace{2pt}389 & 191\hspace{2pt}949 & 1 \tabularnewline
+\cline{2-5}
+16 & 3133 & 153\hspace{2pt}498 & 225\hspace{2pt}844 & 1 \tabularnewline
+\cline{2-5}
+17 & 5690 & 147\hspace{2pt}368 & 340\hspace{2pt}145 & 1 \tabularnewline
+\cline{2-5}
+18 & 5081 & 160\hspace{2pt}955 & 307\hspace{2pt}814 & 3 \tabularnewline
+\cline{2-5}
+19 & 6398 & 426\hspace{2pt}429 & 353\hspace{2pt}303 & 3 \tabularnewline
+\cline{2-5}
+20 & 5923 & 293\hspace{2pt}638 & 338\hspace{2pt}710 & 2 \tabularnewline
+\cline{2-5}
+21 & 5966 & 288\hspace{2pt}784 & 340\hspace{2pt}986 & 1 \tabularnewline
+\cline{2-5}
+22 & 5662 & 151\hspace{2pt}093 & 323\hspace{2pt}894 & 1 \tabularnewline
+\cline{2-5}
+23 & 10880 & 472\hspace{2pt}228 & 533\hspace{2pt}653 & 2 \tabularnewline
+\cline{2-5}
+24 & 11073 & 489\hspace{2pt}630 & 542\hspace{2pt}150 & 1 \tabularnewline
+\cline{2-5}
+25 & 10730 & 413\hspace{2pt}476 & 550\hspace{2pt}188 & 2 \tabularnewline
+\cline{2-5}
+26 & 10839 & 484\hspace{2pt}518 & 538\hspace{2pt}002 & 1 \tabularnewline
+\cline{2-5}
+\end{tabular}
+\caption{Campioni del dataset}
+\label{table:sample_stats}
+\end{table}
+
+\begin{table}[h]
+\small
+\centering
+\begin{tabular}{l | c | c | c | c | c | c | c | c |}
+\cline{2-9}
+1 & 1 & 0.053 & 0.021 & 0.127 & 0.163 & 0.016 & 0.067 & 0.056 \tabularnewline
+\cline{2-9}
+2 &  & 1 & 0.031 & 0.115 & 0.057 & 0.073 & 0.104 & 0.036 \tabularnewline
+\cline{2-9}
+3 &  &  & 1 & 0.03 & 0.058 & 0.032 & 0.055 & 0.053 \tabularnewline
+\cline{2-9}
+4 &  &  &  & 1 & 0.079 & 0.105 & 0.114 & 0.085 \tabularnewline
+\cline{2-9}
+5 &  &  &  &  & 1 & 0.019 & 0.042 & 0.027 \tabularnewline
+\cline{2-9}
+6 &  &  &  &  &  & 1 & 0.029 & 0.045 \tabularnewline
+\cline{2-9}
+7 &  &  &  &  &  &  & 1 & 0.048 \tabularnewline
+\cline{2-9}
+8 &  &  &  &  &  &  &  & 1 \tabularnewline
+\cline{2-9}
+\end{tabular}
+\caption{Omogeneit\`a tra i campioni di 1500 nodi del dataset}
+\label{table:omogeneita_1500}
+\end{table}
