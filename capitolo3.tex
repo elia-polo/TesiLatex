@@ -237,9 +237,11 @@ Ogni grafo GML pu\`o essere sottoposto al modulo \texttt{Graph Preprocessing} (p
 Se si necessita di una valutazione topologica del grafo allora \`e possibile usare il modulo \texttt{Topological Metrics} (paragrafo \ref{topo_metrics}): il risultato sar\`a composto da una serie di metriche che indicano il numero di nodi e di relazioni d'amicizia, le componenti connesse del grafo, o altre informazioni pi\`u complesse come la robustezza o l'entropia del grafo.\\
 Il modulo \texttt{Algorithms} (paragrafo \ref{esecuzione_algoritmi}) invece, presenta, oltre a tutti gli algoritmi descritti nei paragrafi precedenti, anche un insieme di tool di conversione che, partendo dal grafo GML da analizzare, consente di ottenere i file di input nella rappresentazione interna di un algoritmo.\\
 Il modulo \texttt{Communities Description} serve ad avere una rappresentazione immediata delle varie comunit\`a: tramite un file XML, viene indicata la media, la varianza e la lista dei valori di ogni attributo del cluster ordinato per rilevanza.\\
-Infine, il modulo \texttt{Clustering Evaluation} (che verr\`a descritto nel prossimo capitolo insieme all'analisi sperimentale) permette di valutare la bont\`a di un risultato di clustering, confrontare le prestazioni dei diversi algoritmi e suggerire la tecnica migliore per un certo dataset in input. \\
-\begin{figure}[h]
-    \includegraphics[width=1\textwidth]{pictures/workflow.pdf}
+Infine, il modulo \texttt{Clustering Evaluation} (che verr\`a descritto nel prossimo capitolo insieme all'analisi sperimentale) permette di valutare la bont\`a di un risultato di clustering, confrontare le prestazioni dei diversi algoritmi e suggerire la tecnica migliore per un certo dataset in input.
+\newpage
+\begin{sidewaysfigure}
+	\centering
+    \includegraphics[width=1\textheight]{pictures/workflow.pdf}
     \caption{Workflow modulare dell'architettura}
     \label{fig:framework_flow}
-\end{figure}
+\end{sidewaysfigure}

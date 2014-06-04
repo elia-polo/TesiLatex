@@ -5,39 +5,68 @@
 In questo capitolo discutiamo i risultati degli algoritmi da noi selezionati sui dati raccolti.
 
 \section{LAC}
-Le prestazioni dell'algoritmo sono visibilmente influenzate dal numero di cluster e dal valore assegnato al parametro \textit{h} (\autoref{fig:lac_correlation_1500}.
-\begin{figure}[h]
-        \centering
-        \begin{subfigure}[b]{0.85\textwidth}
-                \includegraphics[width=\textwidth]{pictures/LAC/H1_1500.pdf}
-                %\caption{h = 1}
-                %\label{fig:h1_lac_correlation_1500}
-        \end{subfigure}
-        
-        \begin{subfigure}[b]{0.85\textwidth}
-                \includegraphics[width=\textwidth]{pictures/LAC/H2_1500.pdf}
-                %\caption{h = 2}
-                %\label{fig:h2_lac_correlation_1500}
-        \end{subfigure}
-        
-        \begin{subfigure}[b]{0.85\textwidth}
-                \includegraphics[width=\textwidth]{pictures/LAC/H3_1500.pdf}
-                %\caption{h = 3}
-                %\label{fig:h3_lac_correlation_1500}
-        \end{subfigure}
-        \caption{Prestazioni di LAC su campioni di 1500 nodi, rispettivamente per h=1, h=2 e h=3}\label{fig:lac_correlation_1500}
-\end{figure}\\
-\`E interessante osservare che, avendo fissato \textit{h}, campioni significativamente diversi del grafo completo mostrano l'evoluzione della prestazione al variare di \textit{k} è regolare, pur avendo considerato per questa analisi dei   (\autoref{table:omogeneita_1500}). Osservando \autoref{fig:lac_correlation_1500} (a), il digradare della correlazione al crescere di \textit{k} non è motivato da una penalizzazione delle soluzioni inutilmente complesse, poiché la correlazione misura unicamente la purezza e non la sintesi del clustering. Pertanto sembra essere una \\
-Ricordiamo che nel calcolo della correlazione, la similarità è calcolata nello spazio completo degli attributi: pertanto appare in qualche modo paradossale che richiedere una soluzione con sottospazi di dimensione crescente, che quindi si avvicinano di più alla percezione delle distanze considerata per la correlazione, produca soluzioni di qualità via via peggiore. Questa tendenza può essere chiaramente esaminata in \autoref{fig:h_by_dataset}.
-\begin{figure}[h]
+Le prestazioni dell'algoritmo sono visibilmente influenzate dal numero di cluster e dal valore assegnato al parametro \textit{h} (\autoref{fig:h_by_dataset}).
+\begin{figure}[hb]
     \centering
-    \includegraphics[width=0.95\textwidth]{pictures/LAC/H_by_Dataset.pdf}
+    \begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=\textwidth]{pictures/LAC/H_by_Dataset.pdf}
+                \caption{N=1500}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=\textwidth]{pictures/LAC/H_by_Dataset_3000.pdf}
+                \caption{N=3000}
+	\end{subfigure}
     \caption{Correlazione al variare del parametro h}
 	\label{fig:h_by_dataset}
 \end{figure}\\
-LAC mostra dei tempi di computazione estremamente dipendenti dalla dimensione del dataset. Questa dipendenza non altera significativamente il tempo di esecuzione di una singola iterazione dell'algoritmo--- che ricordiamo essere $O(kDN)$---ma incide sul numero di iterazioni prima della convergenza.\\
-Le condizioni iniziali dell'algoritmo, come ad esempio la scelta dei centroidi, non sembrano avere rilievo nei tempi di convergenza, come si nota in \autoref{fig:lac_boxplots}. Fissata la dimensione h dei sottospazi, ripetute esecuzioni dell'algoritmo per un dato k hanno prodotto tempi di esecuzione pressoché stazionari, né le oscillazioni sono dovute ad ad un diverso ritmo di convergenza, poiché il numero di iterazioni è risultato costante fra le diverse rilevazioni. Un altro dettaglio di interesse è che il la rapidità di convergenza non sembra correlata alla dimensione \textit{k} del clustering.
-\begin{figure}[h]
+%\begin{figure}[h]
+%        \centering
+%        \begin{subfigure}[b]{\textwidth}
+%                \includegraphics[width=\textwidth]{pictures/LAC/H1_1500.pdf}
+%                \caption{h = 1}
+%                \label{fig:h1_lac_correlation_1500}
+%        \end{subfigure}
+%        
+%        \begin{minipage}{\textwidth}
+%        \begin{subfigure}[b]{0.49\textwidth}
+%                \includegraphics[width=\textwidth]{pictures/LAC/H2_1500.pdf}
+%                \caption{h = 2}
+%                \label{fig:h2_lac_correlation_1500}
+%        \end{subfigure}
+%        \begin{subfigure}[b]{0.49\textwidth}
+%                \includegraphics[width=\textwidth]{pictures/LAC/H3_1500.pdf}
+%                \caption{h = 3}
+%                \label{fig:h3_lac_correlation_1500}
+%        \end{subfigure}
+%        \end{minipage}
+%        \caption{Prestazioni di LAC su campioni di 1500 nodi}\label{fig:lac_correlation_1500}
+%\end{figure}\\
+\`E interessante osservare che, avendo fissato \textit{h}, campioni significativamente diversi del grafo completo mostrano la stessa evoluzione della prestazione al variare di \textit{k}. Ricordiamo che nel calcolo della correlazione, la similarità è calcolata nello spazio completo degli attributi: pertanto appare in qualche modo paradossale che richiedere una soluzione con sottospazi di dimensione crescente, con \textit{h} progressivamente più grande, che quindi si avvicinano di più alla percezione delle distanze considerata per la correlazione, produca soluzioni di qualità via via peggiore. Questa tendenza può essere chiaramente esaminata in \autoref{fig:h_by_dataset} e si conserva al variare della cardinalità e del numero di attributi nel dataset. Un altro aspetto interessante dell'algoritmo è come la qualità del clustering cambia quando si proiettano i cluster nel relativo sottospazio. In questo caso abbiamo calcolato la similarità tra gli individui nello spazio originale degli attributi e successivamente in quello trasformato dal clustering, che attribuisce un peso a ciascuna dimensione rispetto ad ogni cluster. Sebbene nello spazio trasformato gli individui dovrebbero essere più simili, come si può osservare, la correlazione decresce, pur restando elevata. Questo testimonia come usare una misura di similarità diversa da quella impiegata dall'algoritmo porti a conclusioni radicalmente diverse sulla bontà del risultato.
+\begin{figure}[ht]
+        \centering
+        \begin{minipage}{\textwidth}
+        \begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=\textwidth]{pictures/LAC/Weighted_1.pdf}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=\textwidth]{pictures/LAC/Weighted_2.pdf}
+        \end{subfigure}
+        \end{minipage}
+        
+        \begin{minipage}{\textwidth}
+        \begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=\textwidth]{pictures/LAC/Weighted_3.pdf}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=\textwidth]{pictures/LAC/Weighted_4.pdf}
+        \end{subfigure}
+        \end{minipage}
+        \caption{Prestazioni di LAC sui cluster pesati}
+        \label{fig:lac_weighted_correlation_1500}
+\end{figure}\\
+\subsection{Tempo di esecuzione}
+LAC mostra dei tempi di computazione estremamente dipendenti dalla dimensione del dataset. Questa dipendenza non altera significativamente il tempo di esecuzione di una singola iterazione dell'algoritmo--- che ricordiamo essere $O(kDN)$---ma incide sul numero di iterazioni prima della convergenza. Le condizioni iniziali dell'algoritmo, come ad esempio la scelta dei centroidi, non sembrano avere rilievo nei tempi di convergenza, come si nota in \autoref{fig:lac_boxplots}. Fissata la dimensione h dei sottospazi, ripetute esecuzioni dell'algoritmo per un dato k hanno prodotto tempi di esecuzione pressoché stazionari, né le oscillazioni sono dovute ad ad un diverso ritmo di convergenza, poiché il numero di iterazioni è risultato costante fra le diverse rilevazioni.\\
+\begin{figure}[t]
         \centering
         \begin{subfigure}[b]{0.3\textwidth}
                 \includegraphics[width=\textwidth]{pictures/LAC/H1_Time_Boxplot_large.pdf}
@@ -56,36 +85,40 @@ Le condizioni iniziali dell'algoritmo, come ad esempio la scelta dei centroidi, 
                 \label{fig:h3_lac_boxplot}
         \end{subfigure}
         \caption{Variabilità dei tempi di esecuzione di LAC sul dataset 1}\label{fig:lac_boxplots}
-\end{figure}\\
-Durante gli esperimenti abbiamo constatato che l'algoritmo richiede tempi esponenzialmente più lunghi di convergenza all'aumentare della dimensione del campione. Abbiamo riportato i tempi registrati su dataset di circa 1500 nodi in \autoref{fig:lac_time_1500}.
+\end{figure}
+Un altro dettaglio di interesse è che il la rapidità di convergenza non sembra correlata alla dimensione \textit{k} del clustering, come si può notare dalla \autoref{fig:lac_time} dove abbiamo riportato i tempi registrati su dataset di circa 1500 e 3000 nodi. Durante gli esperimenti abbiamo constatato che l'algoritmo richiede tempi significativamente più lunghi di convergenza all'aumentare della dimensione del campione. Benché sia difficile notare un chiaro andamento dei tempi di esecuzione in funzione dei parametri, che apparentemente, si vedano \autoref{fig:lac_time} (a) (b) e (c), non hanno alcun influsso, possono tuttavia essere avanzate alcune considerazioni.
 \begin{figure}[h]
         \centering
-        \begin{subfigure}[b]{0.9\textwidth}
+        \begin{subfigure}[b]{0.32\textwidth}
                 \includegraphics[width=\textwidth]{pictures/LAC/H1_1500_Time.pdf}
-                %\caption{h = 1}
+                \caption{N = 1500, h = 1}
                 %\label{fig:h1_lac_time_1500}
         \end{subfigure}
-        
-        \begin{subfigure}[b]{0.9\textwidth}
+        \begin{subfigure}[b]{0.32\textwidth}
                 \includegraphics[width=\textwidth]{pictures/LAC/H2_1500_Time.pdf}
-                %\caption{h = 2}
+                \caption{N = 1500, h = 2}
                 %\label{fig:h2_lac_time_1500}
         \end{subfigure}
-        
-        \begin{subfigure}[b]{0.9\textwidth}
+        \begin{subfigure}[b]{0.32\textwidth}
                 \includegraphics[width=\textwidth]{pictures/LAC/H3_1500_Time.pdf}
-                %\caption{h = 3}
+                \caption{N = 1500, h = 3}
                 %\label{fig:h3_lac_time_1500}
         \end{subfigure}
-        \caption{Tempi di esecuzione di LAC su campioni del grafo di 1500 nodi, rispettivamente per h=1, h=2 e h=3}\label{fig:lac_time_1500}
-\end{figure}\\
-Nel passare a campioni di 3000 elementi, il tempo richiesto dall'algoritmo è peggiorato sensibilmente (\autoref{fig:lac_time_3000}), accentuandosi al crescere del parametro \textit{h}. Non è stato possibile procedere oltre questa dimensione poiché, in svariati tentativi su dataset di 6000 utenti, l'algoritmo non ha mai raggiunto la convergenza dopo numerose ore di elaborazione. Sebbene gli autori abbiano fornito la prova teorica della convergenza dell'algoritmo, nella pratica i tempi di esecuzione sono incompatibili con il nostro scenario.
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.95\textwidth]{pictures/LAC/H_by_Dataset_Time_3000.pdf}
-    \caption{Tempi di esecuzione di LAC (3000 nodi)}
-	\label{fig:lac_time_3000}
-\end{figure}\\
+        
+        \begin{subfigure}[b]{\textwidth}
+        	\centering
+    		\includegraphics[width=0.8\textwidth]{pictures/LAC/H_by_Dataset_Time_3000.pdf}
+    		\caption{N = 3000}
+		\end{subfigure}
+        \caption{Tempi di esecuzione di LAC}\label{fig:lac_time}
+\end{figure}
+Dagli esperimenti risulta che LAC non raggiunge facilmente la convergenza per alcuni valori del parametro \textit{k}: si noti ad esempio il tempo richiesto per calcolare il clustering di un dataset di 3000 nodi per \textit{k=4,h=3} rispetto agli altri valori del numero di cluster. In genere, \textit{k=4} è risultato uno scoglio su tutti i dataset di test. Inoltre, per \textit{h=1} e \textit{h=2}, l'algoritmo non è arrivato a convergenza in tempi congrui con la dimensione del campione. Questi picchi peggiorano significativamente per dataset via via più grandi.
+%\begin{figure}[h]
+%    \centering
+%    \includegraphics[width=0.95\textwidth]{pictures/LAC/H_by_Dataset_Time_3000.pdf}
+%    \caption{Tempi di esecuzione di LAC (3000 nodi)}
+%	\label{fig:lac_time_3000}
+%\end{figure}\\
 
 %\begin{figure}[h]
 %    \centering
@@ -95,10 +128,264 @@ Nel passare a campioni di 3000 elementi, il tempo richiesto dall'algoritmo è peg
 %\end{figure}
 
 \section{ORCLUS}
+\subsection{Prestazioni}
+In \autoref{fig:orclus_correlation_1500} è riportato l'andamento della correlazione su diversi dataset al variare del parametro \textit{l}, la dimensione del sottospazio di ciascun cluster. Sebbene per valori intermedi (\textit{l=20},\textit{l=30}) la prestazione segua un corso erratico, è invece interessante osservare come per valori molto bassi (10) e relativamente alti (40,50) la correlazione sia regolare e prevedibile. Per comodità, mostriamo in \autoref{fig:orclus_correlation_1500} (b) l'andamento medio della qualità del clustering, che ripetiamo è significativo solo per \textit{l}={10,40,50}.
+\begin{figure}[b!]
+\begin{minipage}{\textwidth}
+  \begin{subfigure}{0.33\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H10_1500.pdf}
+    \caption{l = 10}
+    \label{fig:orclus_H10_1500}
+  \end{subfigure}
+  \begin{subfigure}{0.32\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H20_1500.pdf}
+    \caption{l = 20}
+    \label{fig:orclus_H20_1500}
+  \end{subfigure}
+  \begin{subfigure}{0.33\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H30_1500.pdf}
+    \caption{l = 30}
+    \label{fig:orclus_H30_1500}
+  \end{subfigure}
+\end{minipage}\\
+\begin{minipage}{\textwidth}
+  \begin{subfigure}{.5\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H40_1500.pdf}
+    \caption{l = 40}
+    \label{fig:orclus_H40_1500}
+  \end{subfigure}
+  \begin{subfigure}{.5\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H50_1500.pdf}
+    \caption{l = 50}
+    \label{fig:orclus_H50_1500}
+  \end{subfigure}
+\end{minipage}
+\caption{Correlazione al variare del parametro l}
+\label{fig:orclus_H10-50}
+\end{figure}
+Dalla figura emergono due riflessioni: la prima è che più il sottospazio è piccolo rispetto alla dimensionalità originale dei dati e più irrilevante diventa il confronto con algoritmi che non praticano subspace clustering, che richiedono la valutazione delle differenze tra individui nello spazio completo degli attributi. La seconda è che oltre una certa dimensione dello spazio degli attributi, aggiungere ulteriori dimensioni non è vantaggioso, come si può notare dal confronto tra \textit{l}=40 e \textit{l}=50. 
+\begin{figure}[h]
+        \centering
+        \begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=\textwidth]{pictures/ORCLUS/H_by_Dataset.pdf}
+                %\caption{h = 1}
+                %\label{fig:h1_lac_correlation_1500}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=\textwidth]{pictures/ORCLUS/H_by_Dataset_average.pdf}
+                %\caption{h = 2}
+                %\label{fig:h2_lac_correlation_1500}
+        \end{subfigure}
+        \caption{Prestazioni di ORCLUS su campioni di 1500 nodi}\label{fig:orclus_correlation_1500}
+\end{figure}\\
+La manifesta instabilità delle prestazioni in certuni dataset, come si nota in \autoref{fig:orclus_correlation_1500} (a) per \textit{l}=20 (giallo) e \textit{l}=30 (blu), ci ha spinto a studiare la stabilità delle prestazioni di ORCLUS, ovvero la capacità dell'algoritmo di correggere in itinere le decisioni iniziali, come la scelta dei medoidi, e la formazione del sottospazio del cluster. Abbiamo pertanto reiterato il clustering sullo stesso dataset, variando \textit{k} e \textit{l}, e misurato la variazione del punteggio tra le iterazioni. I risultati sono riportati in \autoref{fig:orclus_cluster_skewness}. Come si può notare, per certune parametrizzazioni dell'algoritmo, i risultati sono compresi in una ampia forbice di valori. Una concausa di questo fenomeno è che quando l'algoritmo è costretto a forzare un cluster ben definito in un sottospazio più piccolo, le \textit{l} dimensioni sono scelte casualmente, portando a diversi risultati anche partendo dalle stesse condizioni iniziali.
+\begin{wrapfigure}{R}{.45\textwidth}
+        \centering
+        \includegraphics[width=.4\textwidth]{pictures/ORCLUS/cluster_skewness.pdf}
+        \caption{Instabilità delle prestazioni}
+        \label{fig:orclus_cluster_skewness}
+\end{wrapfigure}
+\subsection{Tempi}
+\begin{figure}[h]
+        \centering
+        \begin{subfigure}{\textwidth}
+        \centering
+                \includegraphics[trim=0cm 2.5cm 0cm 1cm, clip=true, height=0.19\textheight, width=.7\textwidth]{pictures/ORCLUS/H10_1500_Time.pdf}
+                %\caption{h = 1}
+                %\label{fig:h1_lac_time_1500}
+        \end{subfigure}
+        
+        \begin{subfigure}{\textwidth}
+        \centering
+                \includegraphics[trim=0cm 2.5cm 0cm 1cm, clip=true, height=0.19\textheight, width=.7\textwidth]{pictures/ORCLUS/H25_1500_Time.pdf}
+                %\caption{h = 2}
+                %\label{fig:h2_lac_time_1500}
+        \end{subfigure}
+        
+        \begin{subfigure}{\textwidth}
+        \centering
+                \includegraphics[trim=0cm 2.5cm 0cm 1cm, clip=true, height=0.19\textheight, width=.7\textwidth]{pictures/ORCLUS/H40_1500_Time.pdf}
+                %\caption{h = 3}
+                %\label{fig:h3_lac_time_1500}
+        \end{subfigure}
+        
+		\begin{subfigure}{\textwidth}
+		\centering
+                \includegraphics[trim=0cm 2.5cm 0cm 1cm, clip=true, height=0.19\textheight, width=.7\textwidth]{pictures/ORCLUS/H55_1500_Time.pdf}
+                %\caption{h = 3}
+                %\label{fig:h3_lac_time_1500}
+        \end{subfigure}
+        
+        \begin{subfigure}{\textwidth}
+                \centering
+                \includegraphics[trim=0cm 0cm 0cm 1cm, clip=true, height=0.21\textheight, width=.7\textwidth]{pictures/ORCLUS/H70_1500_Time.pdf}
+                %\caption{h = 3}
+                %\label{fig:h3_lac_time_1500}
+        \end{subfigure}
+        \vspace{-0.3cm}
+        \caption{Tempi di esecuzione di ORCLUS su campioni del grafo di 1500 nodi, rispettivamente per l=10, l=25, l=40, l=55, l=70}\label{fig:orclus_time_1500}
+\end{figure}
+ORCLUS mostra tempi di esecuzione indipendenti dalla dimensione del sottospazio considerato; come mostrato in \autoref{fig:orclus_time_1500_together}, i tempi di esecuzione sono pressoché costanti al variare di l. I dataset utilizzati per questa analisi (1,3,5,7) possiedono un numero crescente di nodi (\autoref{table:sample_stats}) e queste lievi differenze si riflettono fedelmente nei tempi di computazione. Sebbene \textit{l} sia ininfluente sulla complessità temporale, l'importanza di \textit{k0} è significativa. Ricordiamo che ORCLUS procede da una stima iniziale di \textit{k0} cluster che vengono poi accorpati fino al raggiungimento della soluzione desiderata di dimensione \textit{k}. Come si vede in tutti gli esperimenti in \autoref{fig:orclus_time_1500}, il tempo di esecuzione è lineare in \textit{k} fino ad un certo valore, dopo il quale inizia addirittura a decrescere. Ciò è dovuto al fatto che, per $k \leq 14$, $k$ e $k0$ crescono linearmente; abbiamo poi limitato $k0$ ad un valore massimo, lasciando crescere $k$, e questo ha come conseguenza che l'algoritmo richiede meno iterazioni per raggiungere la convergenza, giacché il numero di cluster da accorpare per passare da $k0$ a $k$ decresce al crescere di $k$, spiegando la flessione dei tempi al crescere della dimensione della soluzione. In conclusione, tanto la qualità della soluzione quanto la complessità temporale  dell'algoritmo dipendono dalla grandezza di $k0$ rispetto a $k$.
+\begin{figure}[h]
+        \centering
+        \begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=\textwidth]{pictures/ORCLUS/H_by_Time_by_Dataset_1500.pdf}
+                %\caption{h = 1}
+                %\label{fig:h1_lac_correlation_1500}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=\textwidth]{pictures/ORCLUS/H_by_Time_by_Dataset_1500_average.pdf}
+                %\caption{h = 2}
+                %\label{fig:h2_lac_correlation_1500}
+        \end{subfigure}
+        \caption{Tempi di esecuzione di ORCLUS (1500 nodi)}\label{fig:orclus_time_1500_together}
+\end{figure}
 
+\begin{figure}[t]
+\begin{minipage}{0.32\linewidth}
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H10_3000_Time.pdf}
+    \caption{N=3000 - l=10}
+    \label{fig:orclus_H10_3000}
+  \end{subfigure}
+  
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H25_3000_Time.pdf}
+    \caption{N=3000 - l=25}
+    \label{fig:orclus_H25_3000}
+  \end{subfigure}
+  
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H40_3000_Time.pdf}
+    \caption{N=3000 - l=10}
+    \label{fig:orclus_H40_3000}
+  \end{subfigure}
+  
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H55_3000_Time.pdf}
+    \caption{N=3000 - l=55}
+    \label{fig:orclus_H55_3000}
+  \end{subfigure}
+  
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H70_3000_Time.pdf}
+    \caption{N=3000 - l=70}
+    \label{fig:orclus_H70_3000}
+  \end{subfigure}
+\end{minipage}
+\begin{minipage}{0.32\linewidth}
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H10_1500_Time.pdf}
+    \caption{N=6000 - l=10}
+    \label{fig:orclus_H10_6000}
+  \end{subfigure}
+  
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H25_1500_Time.pdf}
+    \caption{N=6000 - l=25}
+    \label{fig:orclus_H25_6000}
+  \end{subfigure}
+  
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H40_1500_Time.pdf}
+    \caption{N=6000 - l=40}
+    \label{fig:orclus_H40_6000}
+  \end{subfigure}
+  
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H55_1500_Time.pdf}
+    \caption{N=6000 - l=55}
+    \label{fig:orclus_H55_6000}
+  \end{subfigure}
+  
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H70_1500_Time.pdf}
+    \caption{N=6000 - l=70}
+    \label{fig:orclus_H70_6000}
+  \end{subfigure}
+\end{minipage}
+\begin{minipage}{0.32\linewidth}
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H10_11000_Time.pdf}
+    \caption{N=11000 - l=10}
+    \label{fig:orclus_H10_11000}
+  \end{subfigure}
+  
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H25_11000_Time.pdf}
+    \caption{N=11000 - l=25}
+    \label{fig:orclus_H25_11000}
+  \end{subfigure}
+  
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H40_11000_Time.pdf}
+    \caption{N=11000 - l=40}
+    \label{fig:orclus_H40_11000}
+  \end{subfigure}
+  
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H55_11000_Time.pdf}
+    \caption{N=11000 - l=55}
+    \label{fig:orclus_H55_11000}
+  \end{subfigure}
+  
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H70_11000_Time.pdf}
+    \caption{N=11000 - l=70}
+    \label{fig:orclus_H70_11000}
+  \end{subfigure}
+\end{minipage}
+\caption{Tempi di esecuzione di ORCLUS}
+\label{fig:orclus_time_3000_6000_11000}
+\end{figure}
 \section{MOC}
+\autoref{fig:moc_correlation_1500_3000} mostra i risultati dell'analisi sperimentale eseguita su MOC. Sebbene non esista una tendenza sistematica delle prestazioni al variare del numero di cluster, la correlazione che abbiamo registrato è stata sempre bassa, e talvolta negativa. 
+\begin{figure}[ht]
+        \centering
+        \begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=\textwidth]{pictures/MOC/Correlation_1500.pdf}
+                \caption{N = 1500}
+                \label{fig:moc_correlation_1500}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=\textwidth]{pictures/MOC/Correlation_3000.pdf}
+                \caption{N = 3000}
+                \label{fig:moc_correlation_3000}
+        \end{subfigure}
+        \caption{Prestazioni di MOC}
+        \label{fig:moc_correlation_1500_3000}
+\end{figure}\\
+Questi valori numerici, al confine del clustering casuale, sono spiegati dalla distribuzione dei nodi nei cluster. MOC tende a formare cluster estremamente sbilanciati, di cui la maggior parte sono vuoti e pochissimi, talvolta uno solo, raccolgono quasi l'intera popolazione. Questo comportamento è descritto in \autoref{fig:moc_boxplot_users_clusters}: per ciascun valore di $k$ abbiamo misurato la distribuzione del numero di nodi per cluster, ottenuta dal clustering di 8 dataset di 1500 nodi ciascuno. Se i nodi fossero perfettamente distribuiti tra i $k$ cluster osserveremmo una bassissima varianza e una media non nulla pari a $N/k$. In realtà, per $k \leq 4$ il numero di cluster pieni, solitamente uno, compensa i cluster sostanzialmente vuoti producendo una elevatissima varianza; al crescere di $k$, il numero di cluster vuoti diventa predominante e la media e varianza si azzerano, lasciando i cluster non vuoti, che contengono effettivamente la popolazione, come outlier. Poiché tutti gli individui sono compressi in un solo cluster, la correlazione tra la similarità e l'appartenenza allo stesso cluster precipita.
+\begin{figure}[ht]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/MOC/boxplot_users_by_cluster.pdf}
+        \caption{Asimmetria dei cluster}
+        \label{fig:moc_boxplot_users_clusters}
+\end{figure}
+\section{Analisi comparativa: LAC e ORCLUS}
 
 \section{CESNA}
 
 \section{BAGC}
+
 
