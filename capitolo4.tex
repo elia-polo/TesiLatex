@@ -1,7 +1,7 @@
 \chapter{Analisi sperimentali}
 \label{capitolo4}
 \thispagestyle{empty}
-In questo capitolo descriveremo le varie funzionalità per la valutazione dei risultati di clustering. Come già anticipato, ogni algoritmo dispone di una serie di parametri in input che devono essere impostati accuratamente per elevare la qualità dei risultati. Ci proponiamo quindi di risolvere due compiti fondamentali: da un lato, tramite la misurazione degli indici di validità, stimare qual è la miglior parametrizzazione di un algoritmo su un certo dataset; dall'altro, combinare e confrontare questi risultati per ogni tipologia di algoritmo a disposizione, fornendo quindi un suggerimento su quale potrebbe essere la tecnica più efficace da utilizzare in una particolare situazione. Mostreremo, infine, le analisi sperimentali fatte sugli algoritmi che abbiamo selezionato, evidenziandone le caratteristiche salienti e i punti di forza in relazione ai dataset di test.
+In questo capitolo descriviamo le varie funzionalità per la valutazione dei risultati di clustering. Come già anticipato, ogni algoritmo dispone di una serie di parametri in input che devono essere impostati accuratamente per elevare la qualità dei risultati. Ci proponiamo quindi di risolvere due compiti fondamentali: da un lato, tramite la misurazione degli indici di validità, stimare qual è la miglior parametrizzazione di un algoritmo su un certo dataset; dall'altro, combinare e confrontare questi risultati per ogni tipologia di algoritmo a disposizione, fornendo quindi un suggerimento su quale potrebbe essere la tecnica più efficace da utilizzare in una particolare situazione. Mostriamo, infine, le analisi sperimentali fatte sugli algoritmi che abbiamo selezionato, evidenziandone le caratteristiche salienti e i punti di forza in relazione ai dataset di test.
 
 \section{Valutazione dei risultati di clustering}
 L'obiettivo sostanziale di questa fase è determinare la miglior parametrizzazione di un algoritmo per ottenere soluzioni di alta qualità. In questo lavoro, abbiamo utilizzato principalmente due indici per misurare le prestazioni di una tecnica di clustering: la modularità e la correlazione. La modularità misura il grado con cui un utente è connesso agli altri membri della propria comunità rispetto a tutte le altre: varia nell'intervallo $ [-1, 1] $, in cui valori prossimi ad $ 1 $ indicano che gli individui nello stesso cluster presentano una coesione molto significativa. La correlazione, invece, è calcolata tra la matrice di prossimità e la matrice di incidenza di un certo dataset e, anch'essa, varia nell'intervallo $[-1, 1]$, in cui valori vicini a $ 1 $ ($-1$) indicano che i punti appartenenti allo stesso cluster sono molto simili (dissimili) tra loro, mentre valori prossimi a $ 0 $ suggeriscono la presenza di un clustering casuale. Tramite l'utilizzo della correlazione si è liberi di impiegare una qualsiasi funzione di distanza tra gli utenti di una base di dati. In questa maniera, ad esempio, il cliente ha la possibilità di assegnare una rilevanza minore a certi attributi rispetto ad altri, mentre l'analista può scegliere una qualunque funzione che ritiene computazionalmente efficiente su un particolare dataset, senza essere vincolato da una definizione predeterminata dal framework.\\
@@ -109,23 +109,23 @@ Per quanto riguarda invece l'indice di correlazione (\autoref{fig:cesna_corr_150
 \end{itemize}
 Confrontato con gli altri algoritmi, CESNA presenta solitamente valori di correlazione più bassi. La motivazione è da ricercare nel fatto che l'algoritmo cerca di massimizzare la qualità del clustering sia dal punto di vista degli attributi che da quello topologico: tener conto di due diversi fattori porta inevitabilmente alla ricerca di un trade-off tra di essi che può penalizzarli entrambi in virtù di una ottimizzazione congiunta.
 \subsubsection{Tempo di esecuzione}
-La \autoref{fig:cesna_mean_time} riporta i tempi medi d'esecuzione per i campioni del grafo originale: notiamo come questi siano abbastanza prevedibili in quanto crescono non solo all'aumentare del numero di cluster $ k $ su ogni dataset, ma anche all'aumentare della dimensione dei grafi. \\
+La \autoref{fig:cesna_mean_time} riporta i tempi medi d'esecuzione per i campioni del grafo originale: notiamo come questi siano abbastanza prevedibili in quanto crescono non solo all'aumentare del numero di cluster $ k $ su ogni dataset, ma anche all'aumentare della dimensione dei grafi.
+%\vspace{-0.5cm}
+%\begin{wrapfigure}{r}{0.45\textwidth}
+\begin{figure}[b!]
 \vspace{-0.5cm}
-\begin{wrapfigure}{r}{0.45\textwidth}
-  \vspace{-1cm}
-  \begin{center}
-    \includegraphics[width=0.46\textwidth]{pictures/CESNA_mean_time.pdf}
-  \end{center}
-  \vspace{-0.7cm}
-  \caption[CESNA - Tempi di esecuzione medi]{Tempi d'esecuzione medi}
+  \centering
+  \includegraphics[width=0.8\textwidth]{pictures/CESNA_mean_time.pdf}
+  \caption[CESNA - Tempi di esecuzione medi]{Tempi di esecuzione medi}
   \label{fig:cesna_mean_time}
-\end{wrapfigure}
-Come si osserva, CESNA è un algoritmo piuttosto veloce: sui dataset molto semplici è al di sotto di 2 minuti d'esecuzione, mentre su grafi più articolati (come quelli da 11000 nodi) presenta un tempo medio non superiore agli 8 minuti.  C'è da precisare, però, che a differenza degli altri algoritmi l'implementazione di CESNA che disponiamo è sviluppata con 4 thread che lavorano in parallelo.
+\end{figure}
+%\end{wrapfigure}
+\\Come si osserva, CESNA è un algoritmo piuttosto veloce: sui dataset molto semplici è al di sotto di 2 minuti d'esecuzione, mentre su grafi più articolati (come quelli da 11000 nodi) presenta un tempo medio non superiore agli 8 minuti.  C'è da precisare, però, che a differenza degli altri algoritmi l'implementazione di CESNA che disponiamo è sviluppata con 4 thread che lavorano in parallelo.
 \subsection{LAC}
 LAC è un algoritmo di subspace clustering su attributi basato sulla distanza, che deve essere configurato con il numero di cluster $k$ della soluzione ed un indicatore $h$ del numero di dimensioni in ciascun sottospazio.
 \subsubsection{Qualità del clustering}
 Come mostrato in \autoref{fig:h_by_dataset}, entrambi i parametri dell'algoritmo ne influenzano visibilmente il risultato.
-\begin{figure}[t!]
+\begin{figure}[b!]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
                 \includegraphics[width=\textwidth]{pictures/LAC/H_by_Dataset.pdf}
@@ -183,22 +183,23 @@ Come mostrato in \autoref{fig:h_by_dataset}, entrambi i parametri dell'algoritmo
         \caption[LAC - Variazioni della prestazione sui cluster pesati]{Prestazioni di LAC sui cluster pesati}
         \label{fig:lac_weighted_correlation_1500}
 \end{figure}
+\vspace{-0.5cm}
 \subsubsection{Tempo di esecuzione}
 LAC mostra dei tempi di computazione impredicibili, ma fortemente connessi tanto ai valori scelti per i parametri quanto ai dati sotto esame. L'aspetto non banale di questa dipendenza è che non altera significativamente il tempo di esecuzione di una singola iterazione dell'algoritmo---che ricordiamo essere $O(kDN)$---ma incide con grande variabilità sul numero di iterazioni prima della convergenza. Esaminando \autoref{fig:h1_lac_time_1500} si nota che al variare del dataset, avendo fissato il numero di cluster e la dimensione del sottospazio, i tempi di esecuzione fluttuano largamente, così come sullo stesso dataset è sufficiente variare $k$ o $h$ per rallentare o accelerare la convergenza. Sui tempi di esecuzione non sembrano invece avere rilievo le condizioni iniziali dell'algoritmo, quali ad esempio la scelta dei centroidi, come si nota in \autoref{fig:lac_boxplots}.
-\begin{figure}[b]
+\begin{figure}[t]
         \centering
-        \begin{subfigure}[b]{0.3\textwidth}
+        \begin{subfigure}[b]{0.32\textwidth}
                 \includegraphics[width=\textwidth]{pictures/LAC/H1_Time_Boxplot_large.pdf}
                 \caption{h = 1}
                 \label{fig:h1_lac_boxplot}
         \end{subfigure}%
         ~
-        \begin{subfigure}[b]{0.3\textwidth}
+        \begin{subfigure}[b]{0.33\textwidth}
                 \includegraphics[width=\textwidth]{pictures/LAC/H2_Time_Boxplot_large.pdf}
                 \caption{h = 2}
                 \label{fig:h2_lac_boxplot}
         \end{subfigure}
-        \begin{subfigure}[b]{0.3\textwidth}
+        \begin{subfigure}[b]{0.32\textwidth}
                 \includegraphics[width=\textwidth]{pictures/LAC/H2_Time_Boxplot_large.pdf}
                 \caption{h = 3}
                 \label{fig:h3_lac_boxplot}
@@ -206,27 +207,27 @@ LAC mostra dei tempi di computazione impredicibili, ma fortemente connessi tanto
         \caption[LAC - Variabilità dei tempi di esecuzione]{Variabilità dei tempi di esecuzione di LAC sul dataset 1}\label{fig:lac_boxplots}
 \end{figure}
 Fissato il parametro $h$, ripetute esecuzioni dell'algoritmo per un dato $k$ hanno prodotto tempi di esecuzione pressoché stazionari, né le oscillazioni sono dovute ad un diverso ritmo di convergenza, in quanto il numero di iterazioni è risultato costante fra le diverse rilevazioni. Benché sia difficile notare un chiaro andamento dei tempi di esecuzione in funzione degli input, possono tuttavia essere avanzate alcune considerazioni. Dagli esperimenti risulta che LAC non raggiunge facilmente la convergenza per alcuni valori del parametro \textit{k} in relazione al dataset sotto analisi. Al riguardo, si noti il tempo richiesto per calcolare il clustering di un dataset di 3000 nodi per $k=4$ e $h=3$ (\autoref{fig:h1-3_lac_time_3000}) rispetto agli altri valori del numero di cluster; oltretutto, con lo stesso $k$ e per $h=\{1,2\}$ l'algoritmo non è arrivato a convergenza in tempi congrui con la dimensione del campione. Questi picchi peggiorano significativamente all'aumentare di $h$ e della dimensione del dataset.
-\begin{figure}[t]
+\begin{figure}[h!]
         \centering
         \begin{subfigure}[b]{0.32\textwidth}
-                \includegraphics[width=\textwidth]{pictures/LAC/H1_1500_Time.pdf}
+                \includegraphics[width=\textwidth]{pictures/LAC/H1_1500_Time_magnified.pdf}
                 \caption{N = 1500, h = 1}
                 \label{fig:h1_lac_time_1500}
         \end{subfigure}
         \begin{subfigure}[b]{0.32\textwidth}
-                \includegraphics[width=\textwidth]{pictures/LAC/H2_1500_Time.pdf}
+                \includegraphics[width=\textwidth]{pictures/LAC/H2_1500_Time_magnified.pdf}
                 \caption{N = 1500, h = 2}
                 \label{fig:h2_lac_time_1500}
         \end{subfigure}
         \begin{subfigure}[b]{0.32\textwidth}
-                \includegraphics[width=\textwidth]{pictures/LAC/H3_1500_Time.pdf}
+                \includegraphics[width=\textwidth]{pictures/LAC/H3_1500_Time_magnified.pdf}
                 \caption{N = 1500, h = 3}
                 \label{fig:h3_lac_time_1500}
         \end{subfigure}
         
         \begin{subfigure}[b]{\textwidth}
         	\centering
-    		\includegraphics[width=0.8\textwidth]{pictures/LAC/H_by_Dataset_Time_3000.pdf}
+    		\includegraphics[width=0.6\textwidth]{pictures/LAC/H_by_Dataset_Time_3000_magnified.pdf}
     		\caption{N = 3000}
     		\label{fig:h1-3_lac_time_3000}
 		\end{subfigure}
@@ -250,7 +251,7 @@ Fissato il parametro $h$, ripetute esecuzioni dell'algoritmo per un dato $k$ han
 ORCLUS è anch'esso un algoritmo di subspace clustering su attributi basato sulla distanza, che richiede il numero di cluster $k$ della soluzione, il numero $k_0$ di centroidi iniziali e la dimensione $l$ del sottospazio.
 \subsubsection{Qualità del clustering}
 In \autoref{fig:orclus_H10-50} è riportato l'andamento della correlazione su diversi dataset al variare del parametro \textit{l}. Sebbene per valori intermedi ($l=20$, $l=30$) la prestazione segua un corso imprevedibile, è invece interessante osservare come per valori molto bassi ($l=10$) e relativamente alti ($l=40$, $l=50$) la correlazione sia invece regolare. Per comodità, mostriamo in \autoref{fig:orclus_correlation_1500}b l'andamento medio della qualità del clustering, che ripetiamo è realmente indicativo solo per $l \in \{10,40,50\}$.
-\begin{figure}[t!]
+\begin{figure}[b!]
 \centering
 \begin{minipage}{0.95\textwidth}
     \centering
@@ -275,13 +276,13 @@ In \autoref{fig:orclus_H10-50} è riportato l'andamento della correlazione su div
 \begin{minipage}{.95\textwidth}
     \centering
   \begin{subfigure}{.47\linewidth}
-    \includegraphics[width=\linewidth]{pictures/ORCLUS/H40_1500.pdf}
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H40_1500_inner_legend.pdf}
     \caption{l = 40}
     \label{fig:orclus_H40_1500}
   \end{subfigure}
   \begin{subfigure}{.47\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{pictures/ORCLUS/H50_1500.pdf}
+    \includegraphics[width=\linewidth]{pictures/ORCLUS/H50_1500_inner_legend.pdf}
     \caption{l = 50}
     \label{fig:orclus_H50_1500}
   \end{subfigure}
@@ -304,18 +305,20 @@ Dalla figura emergono due osservazioni: la prima è che più il sottospazio è picc
                 %\label{fig:h2_lac_correlation_1500}
         \end{subfigure}
         \caption[ORCLUS - Prestazioni su campioni di 1500 nodi]{Prestazioni di ORCLUS su campioni di 1500 nodi}\label{fig:orclus_correlation_1500}
-\end{figure}\\
-\begin{wrapfigure}{r}{.45\textwidth}
+\end{figure}
+%\begin{wrapfigure}{r}{.45\textwidth}
+\begin{figure}[b]
 \vspace{-0.4cm}
         \centering
-        \includegraphics[width=.4\textwidth]{pictures/ORCLUS/cluster_skewness.pdf}
-        \caption[ORCLUS - Instabilità delle prestazioni]{Instabilità delle prestazioni}
+        \includegraphics[width=.65\textwidth]{pictures/ORCLUS/cluster_skewness.pdf}
+        \caption[ORCLUS - Instabilità delle prestazioni]{Instabilità delle prestazioni, partendo dall'alto per $l\in\{10,20,30,40,50\}$}
         \label{fig:orclus_cluster_skewness}
-\end{wrapfigure}
-La manifesta instabilità delle prestazioni in alcuni dataset, come si nota in \autoref{fig:orclus_correlation_1500}a per $l=20$ (giallo) e $l=30$ (blu), ci ha spinto a studiare la robustezza delle prestazioni di ORCLUS, ovvero la capacità dell'algoritmo di correggere in itinere le decisioni iniziali, come la scelta dei medoidi, e la formazione del sottospazio di ciascun cluster.\\
+\end{figure}
+\\La manifesta instabilità delle prestazioni in alcuni dataset, come si nota in \autoref{fig:orclus_correlation_1500}a per $l=20$ (giallo) e $l=30$ (blu), ci ha spinto a studiare la robustezza delle prestazioni di ORCLUS, ovvero la capacità dell'algoritmo di correggere in itinere le decisioni iniziali, come la scelta dei medoidi, e la formazione del sottospazio di ciascun cluster.\\
 Abbiamo pertanto reiterato il clustering sullo stesso dataset, variando \textit{k} e \textit{l}, e misurato la variazione del punteggio tra le iterazioni. I risultati sono riportati in \autoref{fig:orclus_cluster_skewness}: come si può notare, per certune parametrizzazioni dell'algoritmo i risultati sono compresi in una ampia forbice di valori. Una concausa di questo fenomeno è che quando l'algoritmo è costretto a forzare un cluster ben definito in un sottospazio più piccolo, le \textit{l} dimensioni sono scelte casualmente, portando a risultati diversi pur partendo dalle stesse condizioni iniziali.
 Poiché anche ORCLUS è un algoritmo di subspace clustering, abbiamo studiato quanto siano coesi i cluster proiettati nel proprio sottospazio. In \autoref{fig:projected_orclus_1500-3000} abbiamo riportato le analisi svolte su dataset di 1500 e 3000 nodi, per $l \in \{10,30,50\}$, dove la prestazione originale è riportata con una linea continua e quella proiettata con una linea tratteggiata.
-\begin{figure}[b!]
+\`E significativo che per $l=10$ la qualità dei cluster proiettati è estremamente elevata, e questo comportamento è confermato in tutti i dataset considerati; ciò contribuirebbe inoltre a spiegare la corrispondente bassa qualità dei cluster quando sono valutati nello spazio completo degli attributi. L'alto punteggio del clustering proiettato è tuttavia ingannevole, in quanto per piccoli valori di $h$ ORCLUS forma cluster molto sbilanciati, concentrando la popolazione in un singolo gruppo ed offrendo in genere una soluzione non significativa. Per $h=30$ non esiste una chiara tendenza: seppure i cluster proiettati siano mediamente più puri di quelli calcolati sui dati originali, le peculiarità di ciascun dataset sembrano essere dominanti. Tuttavia inizia a mostrarsi un andamento comune che si rafforza al crescere della dimensione del sottospazio ($h=50$), per cui la qualità delle proiezioni peggiora per bassi valori di $k$; le stesse tendenze sono confermate all'aumentare del volume dei dati.
+\begin{figure}[t!]
 \begin{minipage}{\textwidth}
   \begin{subfigure}{0.33\linewidth}
     \centering
@@ -359,7 +362,6 @@ Poiché anche ORCLUS è un algoritmo di subspace clustering, abbiamo studiato quan
 \caption[ORCLUS - Prestazioni sui cluster proiettati]{Prestazioni di ORCLUS sui cluster proiettati}
 \label{fig:projected_orclus_1500-3000}
 \end{figure}
-\`E significativo che per $l=10$ la qualità dei cluster proiettati è estremamente elevata, e questo comportamento è confermato in tutti i dataset considerati; ciò contribuirebbe inoltre a spiegare la corrispondente bassa qualità dei cluster quando sono valutati nello spazio completo degli attributi. L'alto punteggio del clustering proiettato è tuttavia ingannevole, in quanto per piccoli valori di $h$ ORCLUS forma cluster molto sbilanciati, concentrando la popolazione in un singolo gruppo ed offrendo in genere una soluzione non significativa. Per $h=30$ non esiste una chiara tendenza: seppure i cluster proiettati siano mediamente più puri di quelli calcolati sui dati originali, le peculiarità di ciascun dataset sembrano essere dominanti. Tuttavia inizia a mostrarsi un andamento comune che si rafforza al crescere della dimensione del sottospazio ($h=50$), per cui la qualità delle proiezioni peggiora per bassi valori di $k$; le stesse tendenze sono confermate all'aumentare del volume dei dati.
 \subsubsection{Tempo di esecuzione}
 %\begin{figure}[h]
 %        \centering
@@ -401,7 +403,8 @@ Poiché anche ORCLUS è un algoritmo di subspace clustering, abbiamo studiato quan
 %        \caption{Tempi di esecuzione di ORCLUS su campioni del grafo di 1500 nodi, rispettivamente per l=10, l=25, l=40, l=55, l=70}\label{fig:orclus_time_1500}
 %\end{figure}
 ORCLUS mostra tempi di esecuzione indipendenti dalla dimensione $l$ del sottospazio considerato, come mostrato in \autoref{fig:orclus_time_1500_together}.
-\begin{figure}[b|]
+Le sottili variazioni presenti nel grafico riflettono esattamente le lievi differenze nella cardinalità dei dataset utilizzati per questa analisi (\autoref{table:sample_stats}). Sebbene \textit{l} sia ininfluente sulla complessità temporale, il ruolo di $k_0$ è invece significativo. Ricordiamo che ORCLUS procede da una stima iniziale di $k_0$ gruppi che vengono poi accorpati fino al raggiungimento di una soluzione della dimensione $k$ desiderata. In tutti gli esperimenti realizzati, il tempo di esecuzione è lineare in \textit{k} fino ad un certo valore, dopo il quale inizia addirittura a decrescere, come mostrato in \autoref{fig:orclus_time_1500_together}. Ciò è dovuto al fatto che, per $k \leq 14$, $k$ e $k_0$ sono stati fatti crescere linearmente; abbiamo poi limitato $k_0$ ad un valore massimo e continuato ad incrementare $k$. Questo ha come conseguenza che l'algoritmo richiede meno iterazioni per raggiungere la convergenza, poiché il numero di cluster da accorpare per passare da $k_0$ a $k$ decresce al crescere di $k$, spiegando la flessione dei tempi all'aumentare della dimensione della soluzione. \`E importante tenere presente che agendo sulla grandezza di $k_0$ rispetto a $k$ si può governare tanto la complessità temporale dell'algoritmo quanto la affidabilità e la ripetibilità della soluzione, che entrambe crescono con $k_0$.
+\begin{figure}[t]
         \centering
         \begin{subfigure}[b]{0.49\textwidth}
                 \includegraphics[width=\textwidth]{pictures/ORCLUS/H_by_Time_by_Dataset_1500.pdf}
@@ -415,7 +418,6 @@ ORCLUS mostra tempi di esecuzione indipendenti dalla dimensione $l$ del sottospa
         \end{subfigure}
         \caption[ORCLUS - Tempi di esecuzione]{Tempi di esecuzione di ORCLUS (1500 nodi)}\label{fig:orclus_time_1500_together}
 \end{figure}
-Le sottili variazioni presenti nel grafico riflettono esattamente le lievi differenze nella cardinalità dei dataset utilizzati per questa analisi (\autoref{table:sample_stats}). Sebbene \textit{l} sia ininfluente sulla complessità temporale, il ruolo di $k_0$ è invece significativo. Ricordiamo che ORCLUS procede da una stima iniziale di $k_0$ gruppi che vengono poi accorpati fino al raggiungimento di una soluzione della dimensione $k$ desiderata. In tutti gli esperimenti realizzati, il tempo di esecuzione è lineare in \textit{k} fino ad un certo valore, dopo il quale inizia addirittura a decrescere, come mostrato in \autoref{fig:orclus_time_1500_together}. Ciò è dovuto al fatto che, per $k \leq 14$, $k$ e $k_0$ sono stati fatti crescere linearmente; abbiamo poi limitato $k_0$ ad un valore massimo e continuato ad incrementare $k$. Questo ha come conseguenza che l'algoritmo richiede meno iterazioni per raggiungere la convergenza, poiché il numero di cluster da accorpare per passare da $k_0$ a $k$ decresce al crescere di $k$, spiegando la flessione dei tempi all'aumentare della dimensione della soluzione. \`E importante tenere presente che agendo sulla grandezza di $k_0$ rispetto a $k$ si può governare tanto la complessità temporale dell'algoritmo quanto la affidabilità e la ripetibilità della soluzione, che entrambe crescono con $k_0$.
 %\begin{figure}[t]
 %\begin{minipage}{0.32\linewidth}
 %  \begin{subfigure}{\linewidth}
@@ -531,15 +533,6 @@ Le sottili variazioni presenti nel grafico riflettono esattamente le lievi diffe
 \subsection{MOC}
 MOC è un algoritmo probabilistico per il clustering \textit{overlapping} su attributi, che richiede unicamente il numero $k$ di cluster nella soluzione.
 \subsubsection{Qualità del clustering}
-\begin{wrapfigure}{r}{.45\textwidth}
-        \centering
-        \includegraphics[width=.4\textwidth, trim=0cm 0cm 0cm 1cm, clip=true,]{pictures/MOC/boxplot_users_by_cluster.pdf}
-        \vspace{-0.2cm}
-        \caption[MOC - Distribuzione della dimensione dei cluster]{Asimmetria dei cluster}
-        \label{fig:moc_boxplot_users_clusters}
-        \vspace{-0.2cm}
-\end{wrapfigure}
-La \autoref{fig:moc_correlation_1500_3000} mostra i risultati dell'analisi sperimentale eseguita su MOC. Sebbene non esista una tendenza sistematica delle prestazioni al variare di $k$, la correlazione che abbiamo registrato è stata sempre bassa, e talvolta negativa.
 \begin{figure}[b!]
         \centering
         \begin{subfigure}[b]{0.49\textwidth}
@@ -555,7 +548,17 @@ La \autoref{fig:moc_correlation_1500_3000} mostra i risultati dell'analisi speri
         \caption[MOC - Prestazioni al variare del parametro \textit{k}]{Prestazioni di MOC}
         \label{fig:moc_correlation_1500_3000}
 \end{figure}
+%\begin{wrapfigure}{r}{.45\textwidth}
+La \autoref{fig:moc_correlation_1500_3000} mostra i risultati dell'analisi sperimentale eseguita su MOC. Sebbene non esista una tendenza sistematica delle prestazioni al variare di $k$, la correlazione che abbiamo registrato è stata sempre bassa, e talvolta negativa.
 Questi valori numerici, al confine del clustering casuale, sono spiegati dalla distribuzione dei nodi nei cluster. MOC tende a formare cluster estremamente sbilanciati, di cui la maggior parte sono vuoti e pochissimi, talvolta uno solo, raccolgono quasi l'intera popolazione. Questo comportamento è descritto in \autoref{fig:moc_boxplot_users_clusters}: per ciascun valore di $k$ abbiamo misurato la distribuzione del numero di nodi per cluster, ottenuta dal clustering di 8 dataset di 1500 nodi ciascuno. Se i nodi fossero perfettamente distribuiti tra i $k$ cluster osserveremmo una bassissima varianza e una media non nulla pari a $N/k$. In realtà, nelle soluzioni con $k \leq 4$ il numero di cluster pieni (solitamente uno solo) è comparabile alla quantità di cluster sostanzialmente vuoti, producendo una elevatissima varianza della dimensione dei gruppi; al crescere di $k$, i cluster vuoti diventano predominanti e la media e varianza si azzerano, relegando come outlier i cluster non vuoti, che contengono effettivamente la popolazione. Poiché la maggior parte degli individui è compressa in un solo cluster, la correlazione tra la similarità e l'appartenenza allo stesso cluster precipita. Questo comportamento sembra essere peculiare dell'algoritmo, e non dipende né dalla dimensione del dataset né dal numero di attributi né dalla formulazione dei dati (ad esempio la conversione numerica dei like).
+\begin{figure}[ht]
+        \centering
+        \includegraphics[width=.65\textwidth, trim=0cm 0cm 0cm 1cm, clip=true,]{pictures/MOC/boxplot_users_by_cluster.pdf}
+        \vspace{-0.2cm}
+        \caption[MOC - Distribuzione della dimensione dei cluster]{Asimmetria dei cluster}
+        \label{fig:moc_boxplot_users_clusters}
+        \vspace{-0.2cm}
+\end{figure}
 \subsubsection{Tempo di esecuzione}
 Fissato $N$, la complessità temporale di MOC è determinata dal contributo delle due fasi dell'algoritmo: la prima è $O(k^3)$, con $k$ il numero di cluster, e la seconda $O(d^3)$, dove $d$ è il numero di attributi nel dataset. Il primo contributo è chiaramente visibile in \autoref{fig:moc_time_1500_3000}. La complessità della seconda fase ha invece reso impraticabile il clustering attraverso i singoli like, sebbene l'algoritmo ammetta un formato sparso per i dati; farlo avrebbe accresciuto il numero di dimensioni ben oltre la cardinalità del dataset, portando di fatto ad un algoritmo di complessità cubica. Ciononostante, anche usando le categorie i tempi assoluti di computazione sono superiori agli altri algoritmi su attributi che abbiamo considerato, e non appaiono neppure giustificati dalla qualità del risultato.
 \begin{figure}[h]
@@ -570,66 +573,71 @@ Fissato $N$, la complessità temporale di MOC è determinata dal contributo delle 
                 \caption{N = 3000}
                 \label{fig:moc_time_3000}
         \end{subfigure}
+        \vspace{-0.1cm}
         \caption[MOC - Tempi di esecuzione]{Tempi di esecuzione di MOC}
         \label{fig:moc_time_1500_3000}
 \end{figure}
+\vspace{-0.5cm}
 \subsection{\mbox{Analisi comparativa: LAC e ORCLUS}}
-Abbiamo considerato i migliori algoritmi su attributi fra quelli selezionati per mostrare come sia possibile stimare numericamente la qualità della soluzione, per decidere quali clustering meritino di essere analizzati nel dettaglio. Dallo studio delle prestazioni sui dataset di test sono emerse delle peculiarità di ciascun algoritmo che possono aiutare nella selezione di una buona tecnica per nuovi dati in ingresso. In particolare, LAC funziona bene per popolazioni di piccole dimensioni nelle quali si vogliono identificare poche comunità in sottospazi ridotti ($h=1$). Viceversa, ORCLUS presenta dei limiti nei piccoli dataset e offre risultati scostanti quando le dimensioni selezionate sono poche. Questa differenza emerge in \autoref{fig:LAC_vs_ORCLUS_best_i}, dove abbiamo riportato al variare della dimensione del clustering le tre migliori parametrizzazioni per ciascun algoritmo.
-\begin{figure}[h!]
+Abbiamo considerato i migliori algoritmi su attributi fra quelli selezionati per mostrare come sia possibile stimare numericamente la qualità della soluzione, per decidere quali clustering meritino di essere analizzati nel dettaglio. Dallo studio delle prestazioni sui dataset di test sono emerse delle peculiarità di ciascun algoritmo che possono aiutare nella selezione di una buona tecnica per nuovi dati in ingresso. In particolare, LAC funziona bene per popolazioni di piccole dimensioni nelle quali si vogliono identificare poche comunità in sottospazi ridotti ($h=1$). Viceversa, ORCLUS presenta dei limiti nei piccoli dataset e offre risultati fuorvianti quando le dimensioni selezionate sono poche. Questa differenza emerge in \autoref{fig:LAC_vs_ORCLUS_best_i}, dove abbiamo riportato al variare della dimensione del clustering le tre migliori parametrizzazioni per ciascun algoritmo.
+\begin{figure}[ht]
         \centering
         \includegraphics[width=\textwidth, trim=0cm 0cm 0cm 1cm, clip=true,]{pictures/LAC_vs_ORCLUS_best_i.pdf}
         \caption[Analisi comparativa della prestazione di LAC e ORCLUS al variare del numero di cluster]{Migliori risultati di LAC e ORCLUS al variare della dimensione del clustering}
         \label{fig:LAC_vs_ORCLUS_best_i}
 \end{figure}
-\vspace{-0.1cm}
-\\La complessità di questo confronto è duplice: da un lato entrambi gli algoritmi richiedono molteplici parametri, che non possono essere messi facilmente in corrispondenza e che, come abbiamo visto, incidono significativamente sul risultato; dall'altro, sono entrambi algoritmi di subspace clustering e quindi, a parità di numero di cluster $k$, i clustering di LAC e ORCLUS descrivono comunque due realtà diverse e non paragonabili\footnote{Le tecniche convenzionali di confronto tra clustering tengono unicamente conto dell'assegnazione dei punti ai cluster, ignorando la somiglianza o diversità dei sottospazi associati. In particolare, LAC conserva in genere la dimensionalità originale, stabilendo però una graduatoria degli attributi tramite pesi; ORCLUS viceversa riduce effettivamente la dimensionalità dei singoli cluster combinando linearmente gli attributi originali.}: non solo si differenziano per gli individui che confluiscono in ciascun cluster ma anche per gli attributi che rendono simili gli individui all'interno dello stesso gruppo. Pertanto, con questo tipo di algoritmi è imprescindibile una valutazione caso per caso della rilevanza del sottospazio in cui giace un cluster: se gli attributi selezionati per formare la comunità sono irrilevanti per l'analista, la soluzione sarà comunque da scartare a prescindere dal punteggio ottenuto.\\
-Una metrica totalmente ortogonale alla qualità del clustering è la complessità temporale. L'ottimizzazione simultanea di due misure di qualità ha raramente un punto ottimo globale, ma richiede un compromesso soggettivo. Nel formulare questa decisione è utile considerare i risultati sperimentali esposti in \autoref{fig:LAC_vs_ORCLUS_QT}. Come si può osservare, LAC richiede tempi sostanzialmente inferiori a ORCLUS per produrre una soluzione, seppure in genere la qualità del risultato sia anch'essa minore. Abbiamo quindi tracciato il fronte di Pareto\footnote{Il fronte di Pareto è un insieme di soluzioni nell'ottimizzazione multiobiettivo; è costituito da tutti i punti non dominati, tali per cui non esiste alcun altra soluzione che sia migliore di essi per tutti gli obiettivi considerati nella funzione di ottimizzazione} nel grafico Correlazione--\hspace{-1pt}Tempo e identificato i punti di maggior interesse. Come è emerso dalle analisi svolte sui dataset di test, LAC mostra una buona prestazione complessiva per $h=1$ e $k \leq 4$ mentre ORCLUS mantiene risultati di buon livello al crescere di \textit{k}.
+La complessità di questo confronto è duplice: da un lato entrambi gli algoritmi richiedono molteplici parametri, che non possono essere messi facilmente in corrispondenza e che, come abbiamo visto, incidono significativamente sul risultato; dall'altro, sono entrambi algoritmi di subspace clustering e quindi, a parità di numero di cluster $k$, i clustering di LAC e ORCLUS descrivono comunque due realtà diverse e non paragonabili\footnote{Le tecniche convenzionali di confronto tra clustering tengono unicamente conto dell'assegnazione dei punti ai cluster, ignorando la somiglianza o diversità dei sottospazi associati. In particolare, LAC conserva in genere la dimensionalità originale, stabilendo però una graduatoria degli attributi tramite pesi; ORCLUS viceversa riduce effettivamente la dimensionalità dei singoli cluster combinando linearmente gli attributi originali.}: non solo si differenziano per gli individui che confluiscono in ciascun cluster ma anche per gli attributi che rendono simili gli individui all'interno dello stesso gruppo. Pertanto, con questo tipo di algoritmi è imprescindibile una valutazione caso per caso della rilevanza del sottospazio in cui giace un cluster: se gli attributi selezionati per formare la comunità sono irrilevanti per l'analista, la soluzione sarà comunque da scartare a prescindere dal punteggio ottenuto.\\
+Una metrica totalmente ortogonale alla qualità del clustering è la complessità temporale. L'ottimizzazione simultanea di due misure di qualità ha raramente un punto ottimo globale, ma richiede un compromesso soggettivo; nel formulare questa decisione è utile considerare i risultati sperimentali esposti in \autoref{fig:LAC_vs_ORCLUS_QT}. Come si può osservare, LAC richiede tempi sostanzialmente inferiori a ORCLUS per produrre una soluzione, seppure in genere la qualità del risultato sia anch'essa minore. Abbiamo quindi tracciato il fronte di Pareto\footnote{Il fronte di Pareto è un insieme di soluzioni nell'ottimizzazione multiobiettivo; è costituito da tutti i punti non dominati, tali per cui non esiste alcun altra soluzione che sia migliore di essi per tutti gli obiettivi considerati nella funzione di ottimizzazione.} nel grafico Correlazione--\hspace{-1pt}Tempo e identificato i punti di maggior interesse. Come è emerso dalle analisi svolte sui dataset di test, LAC mostra una buona prestazione complessiva per $h=1$ e $k \leq 4$ mentre ORCLUS mantiene risultati di buon livello al crescere di \textit{k}.
 \begin{figure}[t!]
         \centering
         \includegraphics[width=\textwidth, trim=0cm 0cm 0cm 1cm, clip=true,]{pictures/LAC_vs_ORCLUS_QT.pdf}
         \caption{Correlazione vs Tempo di esecuzione per LAC e ORCLUS}
         \label{fig:LAC_vs_ORCLUS_QT}
+        \vspace{-0.1cm}
 \end{figure}\\
-Nella scelta del numero di comunità da identificare nella popolazione, il parametro $k$ può essere fissato a priori dall'analista, che ha delle informazioni esterne sulla struttura del mercato o cerca di verificare nei dati un modello teorico, oppure può essere determinato a posteriori come il valore che massimizza la qualità percepita del clustering. In quest'ultimo caso, l'indice Silhouette è di grande aiuto.
-\begin{figure}[t!]
+Nella scelta del numero di comunità da identificare nella popolazione, il parametro $k$ può essere fissato a priori dall'analista, se ha delle informazioni esterne sulla struttura del mercato o cerca di verificare nei dati un modello teorico, oppure può essere determinato a posteriori come il valore che massimizza la qualità percepita del clustering. In quest'ultimo caso, l'indice Silhouette è di grande aiuto.
+\begin{figure}[b!]
+\vspace{-0.5cm}
         \centering
-        \begin{subfigure}{0.19\textwidth}
+        \begin{subfigure}{0.49\textwidth}
                 \includegraphics[width=\textwidth]{pictures/Silhouette_10.pdf}
 		\caption{l = 10}
         \end{subfigure}
-        \begin{subfigure}{0.19\textwidth}
+        \begin{subfigure}{0.49\textwidth}
                 \includegraphics[width=\textwidth]{pictures/Silhouette_20.pdf}
 		\caption{l = 20}
         \end{subfigure}
-        \begin{subfigure}{0.19\textwidth}
+        
+        \begin{subfigure}{0.32\textwidth}
                 \includegraphics[width=\textwidth]{pictures/Silhouette_30.pdf}
 		\caption{l = 30}
         \end{subfigure}
-        \begin{subfigure}{0.19\textwidth}
+        \begin{subfigure}{0.33\textwidth}
                 \includegraphics[width=\textwidth]{pictures/Silhouette_40.pdf}
 		\caption{l = 40}
         \end{subfigure}
-		\begin{subfigure}{0.19\textwidth}
+		\begin{subfigure}{0.32\textwidth}
                 \includegraphics[width=\textwidth]{pictures/Silhouette_50.pdf}
 		\caption{l = 50}
         \end{subfigure}
         \caption{Indice Silhouette al variare della dimensione del sottospazio}
         \label{fig:silhouette_by_h}
 \end{figure}
-A differenza della correlazione, l'indice Silhouette assegna un punteggio ad un clustering che misura tanto la purezza, ovvero la similarità intra-cluster, quanto la sintesi, ossia la dissimilarità inter-cluster. Calcolando l'indice per ogni $k$ plausibile, si ottiene un grafico come quello in \autoref{fig:silhouette_by_h}, il cui massimo indica il $k$ più appropriato per l'algoritmo considerato sui dati sotto esame.
+A differenza della correlazione, l'indice Silhouette assegna un punteggio ad un clustering che misura tanto la purezza, ovvero la similarità intra-cluster, quanto la sintesi, ossia la dissimilarità inter-cluster. Calcolando l'indice per ogni $k$ plausibile si ottiene un grafico come quello in \autoref{fig:silhouette_by_h}, il cui massimo indica il $k$ più appropriato per l'algoritmo considerato sui dati sotto esame.
 Una volta identificato il $\bar{k}$ ottimale, è comunque utile studiare quanto ciascun gruppo nella partizione corrente sia ben formato; a tal fine, abbiamo mostrato in \autoref{fig:silhouette_by_cluster} la distribuzione del coefficiente Silhouette elemento per elemento, in ciascuno dei $\bar{k}$ cluster prodotti dall'algoritmo. Come si nota, l'indice sull'intera soluzione è ottenuto dalla media di contributi eterogenei, ed è necessario approfondire l'analisi per rilevare gruppi con pochi utenti e bassa qualità che potrebbero essere vantaggiosamente rimossi dal clustering. A questo proposito, si prenda ad esempio il cluster \textit{4} in \autoref{fig:silhouette_by_cluster}, che contiene pochi individui disomogenei, il cui indice Silhouette è in genere nullo (individui distanti dalla propria comunità) o perfino negativo (individui che avrebbero dovuto essere classificati in altri cluster).
 \begin{figure}[bh]
         \centering
-        \begin{subfigure}{0.24\textwidth}
+        \begin{subfigure}{0.49\textwidth}
                 \includegraphics[width=\textwidth]{pictures/Silhouette_1.pdf}
         \end{subfigure}
-        \begin{subfigure}{0.24\textwidth}
+        \begin{subfigure}{0.49\textwidth}
                 \includegraphics[width=\textwidth]{pictures/Silhouette_2.pdf}
         \end{subfigure}
-        \begin{subfigure}{0.24\textwidth}
+        
+        \begin{subfigure}{0.49\textwidth}
                 \includegraphics[width=\textwidth]{pictures/Silhouette_3.pdf}
         \end{subfigure}
-        \begin{subfigure}{0.24\textwidth}
+        \begin{subfigure}{0.49\textwidth}
                 \includegraphics[width=\textwidth]{pictures/Silhouette_4.pdf}
         \end{subfigure}
         \caption[Distribuzione dell'indice Silhouette in ciascun cluster]{Indice Silhouette per ciascun cluster}
@@ -676,4 +684,3 @@ Una volta identificato il $\bar{k}$ ottimale, è comunque utile studiare quanto c
 %\end{wrapfigure}\\
 %Con questa base, è interessante commentare l'analisi in \autoref{table:cesna_lm_summary}. La dimensione del grafo ha un ruolo primario nelle prestazioni di CESNA, seppure non in maniera intuitiva: infatti abbiamo notato un lento ma stabile declino delle prestazioni al crescere della dimensione del grafo degli utenti, il che spiega l'alta significatività ed il contributo negativo del numero di nodi. Viceversa, il numero di like e di relazioni di amicizia portano un contributo positivo alla qualità della soluzione. Ciò può essere spiegato ricordando che CESNA è anche un algoritmo topologico e l'espansione del grafo tende ad accentuare le distanze tra gli individui; questa deriva degli utenti può essere compensata stabilendo dei legami tra di essi, nella forma di attributi in comune (che crescono potenzialmente con il numero di like) o connessioni sociali (le relazioni di amicizia). L'indice beta è funzione del numero di utenti e di relazioni di amicizia, e questo spiega tanto il segno quanto la rilevanza; parimenti, l'indice gamma è la similarità del grafo ad una cricca con lo stesso numero di nodi, pertanto inciderà positivamente sulla qualità del clustering. La lunghezza dei cammini è  a sua volta connessa all'indice gamma, e diminuisce al crescere del numero di connessioni tra utenti. Nel costruire il modello generativo, CESNA rappresenta anche l'omofilia tra i nodi, negli attributi e nelle connessioni: un indizio di questo fatto è il peso dell'assortatività di grado sulle prestazioni, ed in misura minore della centralità degli autovettori (Bonacich). Due aspetti del modello sono tuttavia difficili da spiegare: la transitività e la prossimità centralizzata. La transitività è una misura tipica della socialità della rete, ed indica la probabilità che individui con un amico in comune siano anch'essi amici tra loro; ha una evidente affinità con l'indice gamma ed è positivamente correlato con i punteggi di clustering, per cui risulta poco comprensibile il peso negativo espresso dal modello. Un contributo che può certamente essere scartato è invece quello della prossimità, che è fortemente correlato al numero di componenti nel grafo e, come quest'ultima metrica, debolmente legato alla qualità del clustering.
 %\section{BAGC}
-
