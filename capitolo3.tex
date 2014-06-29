@@ -49,7 +49,7 @@ Per recuperare queste informazioni è sufficiente una chiamata al metodo \texttt{
 \begin{lstlisting}[basicstyle=\normalfont\ttfamily\scriptsize,backgroundcolor=\color{background}]
 GET https://graph.facebook.com/me?fields=name,gender,friends
 \end{lstlisting}
-che restituisce il seguente file JSon\footnote{JavaScript Object Notation, \url{http://www.json.org}}:
+che restituisce il seguente file JSON\footnote{JavaScript Object Notation, \url{http://www.json.org}}:
 \begin{lstlisting}[language=json,firstnumber=1]
 {
   "name": "Nicola P.", 
@@ -65,8 +65,8 @@ che restituisce il seguente file JSon\footnote{JavaScript Object Notation, \url{
 
 \subsection{Applicazione per la raccolta dei dati}
 Mediante l'SDK per PHP\footnote{\url{https://developers.facebook.com/docs/reference/php/4.0.0}} abbiamo creato un'applicazione che ha ci permesso di recuperare da un utente le seguenti tipologie d'informazione: \textit{profilo} (data di nascita, genere, orientamento sessuale, stato sentimentale, città natale, città di residenza  e istruzione), \textit{like} (tutte le pagine su cui si è indicato \textit{like}) e \textit{amici} (profilo e like degli amici).\\
-L'applicazione è stata utilizzata da 87 utenti (che abbiamo indicato con il termine \textit{DAU} o \textit{Direct User Application}) ottenendo, in totale, circa 25 mila profili Facebook in formato JSon.\\
-Il passo successivo è stato quello di unificare tutti i profili in un unico file GML\footnote{Il formato GML (Graph Modelling Language) permette la rappresentazione dettagliata di un grafo con attributi}. Dal file JSon di ogni DAU sono stati recuperati gli identificatori degli amici e quindi i file JSon ad essi corrispondenti: in questa maniera è stato possibile costruire la rete personale del DAU (o \textit{ego-network}) arricchita dalle informazioni di profilo e dai like di ogni nodo. La composizione incrementale di queste reti ha portato alla creazione del grafo finale.
+L'applicazione è stata utilizzata da 87 utenti (che abbiamo indicato con il termine \textit{DAU} o \textit{Direct User Application}) ottenendo, in totale, circa 25 mila profili Facebook in formato JSON.\\
+Il passo successivo è stato quello di unificare tutti i profili in un unico file GML\footnote{Il formato GML (Graph Modelling Language) permette la rappresentazione dettagliata di un grafo con attributi}. Dal file JSON di ogni DAU sono stati recuperati gli identificatori degli amici e quindi i file JSON ad essi corrispondenti: in questa maniera è stato possibile costruire la rete personale del DAU (o \textit{ego-network}) arricchita dalle informazioni di profilo e dai like di ogni nodo. La composizione incrementale di queste reti ha portato alla creazione del grafo finale.
 
 %\subsubsection{Pulizia preliminare dei nodi}
 %Il grafo è stato ripulito da un insieme di nodi problematici sotto due aspetti. Un utente, infatti, viene escluso se: (1) il numero di attributi di profilo mancanti è maggiore della metà, e (2) se presenta un valore mancante per un certo attributo e la percentuale dei suoi vicini che, per lo stesso attributo hanno valore mancante, è maggiore del cinquanta percento. Il primo punto è di immediata comprensione, il secondo è giustificato dal fatto che l'inferenza di un certo attributo di un utente è basata sui valori che quell'attributo possiede nei vicini dell'utente stesso: se più della metà dei vicini hanno un valore mancante allora è lecito pensare che l'inferenza può addurre risultati molto approssimativi.
@@ -236,7 +236,7 @@ L'algoritmo è scritto in linguaggio C e legge da file una tabella che sarà poi i
 
 \section{Descrizione modulare dell'architettura}
 Per avere una visione d'insieme delle varie tecniche e funzionalità appena esposte, in quest'ultimo paragrafo mostriamo in maniera descrittiva quali sono i moduli teorici che compongono il nostro framework e in quale ordine sono stati utilizzati (\autoref{fig:framework_flow}).\\
-Il modulo \texttt{Data To Graph} permette di ottenere un unico grafo con attributi, in formato GML, partendo da un insieme di utenti Facebook, in formato JSon.\\
+Il modulo \texttt{Data To Graph} permette di ottenere un unico grafo con attributi, in formato GML, partendo da un insieme di utenti Facebook, in formato JSON.\\
 Questo grafo può essere campionato tramite il modulo \texttt{Graph Sampler} (paragrafo \ref{sampler}) che restituirà un insieme di sottografi con caratteristiche topologiche e di attributi molto variegate. Lo strumento può essere utilizzando anche per selezionare un gruppo di utenti che abbiano certe caratteristiche: ad esempio, si può avere la necessità di condurre una segmentazione di mercato solo sui profili Facebook che siano al di sotto di una certa età e con un particolare livello di istruzione.\\
 Ogni grafo GML può essere sottoposto al modulo \texttt{Graph Preprocessing} (paragrafo \ref{preparazione_dati}) che è composto a sua volta dai tre strumenti per l'identificazione degli outlier, la selezione degli attributi rilevanti e l'inferenza dei valori mancanti.\\
 Se si necessita di una valutazione topologica del grafo è allora possibile usare il modulo \texttt{Topological Metrics} (paragrafo \ref{topo_metrics}): il risultato sarà composto da una serie di metriche che indicano il numero di nodi e di relazioni d'amicizia, le componenti connesse del grafo, o altre informazioni più complesse come la robustezza o l'entropia del grafo.\\
